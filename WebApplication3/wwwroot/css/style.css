@@ -1,0 +1,88 @@
+body {
+    font-family: "Century Gothic", sans-serif;
+    background: url("image/fire.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.glavn {
+    background-color: black;
+    font-size: 20px;  
+    padding: 20px;
+}
+
+.glavn li {
+    
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+    padding-left: 80px; 
+}
+
+
+.glavn li a {
+    text-decoration: none;
+    color: white;
+}
+
+.glavn li a:hover{
+    color:firebrick;
+}
+
+footer {
+    color: white;
+    height: 100px;
+}
+
+h1{
+    color: white;
+}
+
+table{
+    color: white;
+    width: 800px;
+    height: 400px;
+}
+
+table, td {
+    border-collapse: collapse;
+}
+
+td{ 
+    border: 1px solid white;
+    vertical-align: middle;
+    text-align: center;
+}
+
+input[type="text"], textarea {
+    text-transform: capitalize;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+    border-radius: 10px;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea:focus {
+    border-radius: 10px;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea:active {
+    outline: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+form {
+    width: 300px;
+    color: white;
+}
+
+.all{
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+}
+
+.bound {
+    font-size: 25px;
+    font-weight: bold;
+}

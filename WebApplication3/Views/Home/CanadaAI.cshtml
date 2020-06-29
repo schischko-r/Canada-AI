@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Forest Wildfire Analysis</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add the map style picker control to the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK,  navigation controls, map style, style picker, map type, satellite, aerial, imagery" />
+    <meta name="author" content="Microsoft Azure Maps" />
+
+    <style>
+        .customInfobox {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .Wildfire {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 7px;
+        }
+    </style>
+
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
+    <link rel="stylesheet" href="style.css?0393243">
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $.ajax({
+            type: "POST",
+            url: "neuralmain.py",
+            data: { param: text }
+        }).done(function (o) {
+            // do something
+            console.log("log");
+        });
+    </script>
+    <script type='text/javascript'>
+        var map, datasource;
+        var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
+        var stateBoundaries = 'canada_provinces.geojson';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire">{EntityType}</div>State: {State}<br>Burning area: {Size} hectares</div>';
+        var geojsonFeed = 'Views/Home/SamplePoiDataSet.json';
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [-95, 58],
+                zoom: 3,
+                view: 'Auto',
+                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: azureMapsSubscriptionKey
+                }
+            });
+
+            //Wait until the map resources are ready.
+            map.events.add('ready', function () {
+                //PopUps
+                //Create a reusable popup.
+                popup = new atlas.Popup();
+                cluster: false,
+
+                    //Create a data source and add it to the map.
+                    datasource = new atlas.source.DataSource(null, {
+                    });
+                map.sources.add(datasource);
+
+                var pointLayer = new atlas.layer.BubbleLayer(datasource, null, {
+                    radius: 8,
+                    color: '#4B0082',
+                    strokeWidth: 2,
+                    strokeColor: "#DAA520",
+                    cluster: false,
+                    filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                });
+
+                map.events.add('click', pointLayer, pointClicked);
+
+                //Add the clusterBubbleLayer and two additional layers to the map.
+                map.layers.add(pointLayer);
+
+                //Import the GeoJSON data into the data source.
+                datasource.importDataFromUrl(geojsonFeed);
+                //PopUps
+                //Add a style control to the map.
+                map.controls.add(new atlas.control.StyleControl({
+                    //Optionally specify which map styles you want to appear in the picker.
+                    //All styles available with the S0 license tier appear by default in the control.
+                    //If using a S1 tier license, you can use the mapStyles option to add premium styles such as 'satellite' and 'satellite_road_labels' to the control.
+                    //To add all available styles, you can use the 'all' keyword.
+                    mapStyles: 'all'
+
+                    //Alternatively, specify an array of all the map styles you would like displayed in the style picker.
+                    //mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels', 'high_contrast_dark']
+                }), {
+                    position: 'bottom-left'
+                });
+                //State
+                //Create a data source and add it to the map.
+                datasource = new atlas.source.DataSource();
+                map.sources.add(datasource);
+
+                //Load the US state boundary data.
+                datasource.importDataFromUrl(stateBoundaries);
+
+                //Add a layer for rendering filled polygon area.
+                var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(0, 157, 255, 0.2)'
+                });
+
+                //Add a layer for rendering a different color polygon for representing a hover state.
+                var polygonHoverLayer = new atlas.layer.PolygonLayer(datasource, null, {
+                    fillColor: 'rgba(150, 50, 255, 0.2)',
+
+                    //Only polygons with a "GEO_ID" property with a value of '' will be rendered.
+                    filter: ['==', ['get', 'GEO_ID'], '']
+                });
+
+                //Add a layer for rendering the styled outline of the polygon data.
+                var lineLayer = new atlas.layer.LineLayer(datasource, null, {
+                    strokeColor: 'white',
+                    strokeWidth: 1
+                });
+
+                //Add the layers to be map, but render it below the labels.
+                map.layers.add([polygonLayer, polygonHoverLayer, lineLayer], 'labels');
+
+                // When the user moves their mouse over the polygonLayer, we'll update the filter in
+                // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
+                map.events.add('mousemove', polygonLayer, function (e) {
+                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], e.shapes[0].getProperties().GEO_ID] });
+                });
+
+                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
+                map.events.add('mouseleave', polygonLayer, function (e) {
+                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], ''] });
+                });
+                //State
+                //PopUps2
+                function pointClicked(e) {
+                    //Make sure the event occurred on a point feature.
+                    if (e.shapes && e.shapes.length > 0) {
+                        var content, coordinate;
+
+                        //Check to see if the first value in the shapes array is a Point Shape.
+                        if (e.shapes[0] instanceof atlas.Shape && e.shapes[0].getType() === 'Point') {
+                            var properties = e.shapes[0].getProperties();
+                            content = simplePopupTemplate.replace(/{EntityType}/g, properties.EntityType).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size);
+                            coordinate = e.shapes[0].getCoordinates();
+                        } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
+
+                            //Check to see if the feature is a cluster.
+                            if (e.shapes[0].properties.cluster) {
+                                content = '<div style="padding:10px;">Cluster of ' + e.shapes[0].properties.point_count + ' symbols</div>';
+                            } else {
+                                //Feature is likely from a VectorTileSource.
+                                content = simplePopupTemplate.replace(/{EntityType}/g, properties.EntityType).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size);
+                            }
+
+                            coordinate = e.shapes[0].geometry.coordinates;
+                        }
+
+                        if (content && coordinate) {
+                            //Populate the popupTemplate with data from the clicked point feature.
+                            popup.setOptions({
+                                //Update the content of the popup.
+                                content: content,
+
+                                //Update the position of the popup with the symbols coordinate.
+                                position: coordinate
+                            });
+
+                            //Open the popup.
+                            popup.open(map);
+                        }
+                    }
+                }
+                //PopUps2
+            });
+
+        }
+    </script>
+</head>
+
+<body onload="GetMap()">
+    <div id="myMap" style="position:relative;width:70%;min-width:290px;height:600px;"></div>
+    <div id="measurementInfo" style="position:absolute;top:110px;left:10px;background-color:white;border-radius:10px;padding:10px;"></div>
+    <input type="button" title="Delete" value="D" onclick="location.href='@Url.Action("Button_click", "Home")'" />
+    <hr>
+    <footer>
+        &copy;Vacanda
+    </footer>
+</body>
+</html>

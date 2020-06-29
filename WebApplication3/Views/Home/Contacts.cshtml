@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Контакты</title>
+    <meta name="description" content="Пожары">
+    <meta name="keywords" content="Пожары, Канада, возмещение ущерба после пожара, стоимость тушения пожара">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ 
+</head>
+<body>
+    <main>
+    <form action="#">
+        <fieldset class="all">
+            <fieldset>
+                <legend class="bound">Свяжитесь с нами</legend>
+                <br> Ваше имя:
+                <br>
+                <input type="text" placeholder="Введите имя" class="pole">
+                <br> Ваша Почта:
+                <br>
+                <input type="email" placeholder="Введите почту" class="pole" required>
+                <br> Укажите номер, чтобы мы могли позвонить вам:
+                <br>
+                <input type="tel" pattern="8[0-9]{3}[0-9]{3}[0-9]{2}[0-9]{2}" placeholder="89104494743" class="pole">
+                <br>
+                <fieldset>
+                    <legend>Укажите пол:</legend>
+                    <br> Мужской
+                    <input type="radio" name="pol"> Женский
+                    <input type="radio" name="pol" checked>
+                    <br>
+                </fieldset>
+                <p>Кратко опишите ситуацию (какая площадь пожара, где это случилось и т.д)
+                    <br>
+                    <textarea name="comment" cols="40" rows="3"></textarea>
+                </p>
+                <input type="submit" value="Данные">
+                <input type="reset"> </fieldset>
+        </fieldset>
+    </form>
+    </main>
+      
+    <hr>
+    <footer>
+        &copy;Vacanda
+    </footer>
+</body>
+</html>
