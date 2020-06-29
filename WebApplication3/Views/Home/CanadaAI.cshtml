@@ -11,8 +11,8 @@
 
     <style>
         .customInfobox {
-            width: 200px;
-            height: 150px;
+            width: 250px;
+            height: 180px;
             text-align: center;
         }
 
@@ -24,7 +24,7 @@
         }
 
         .Alert {
-            font-size: 17px;
+            font-size: 14px;
             font-weight: bold;
             margin-top: 5px;
             margin-bottom: 7px;
@@ -38,7 +38,7 @@
         }
 
         .glavn {
-            background-color: black;
+            background-color: #000000;
             font-size: 20px;
             padding: 20px;
         }
@@ -138,9 +138,9 @@
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
         //var stateBoundaries = 'canada_provinces.geojson';
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/canada_provinces.geojson';
-        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> {Size} hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br><br><div class="Alert"><p style "color:{Color};">{Alert}<p></div></div>';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> {Size} hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br><div class="Alert"><font color = "{Color}";>{Alert}<font></div></div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
-        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/SamplePoiDataSet.json';
+        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/fires.json';
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -172,7 +172,7 @@
                     strokeWidth: 2,
                     strokeColor: "#DAA520",
                     cluster: false,
-                    filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+                    filter: ['!', ['has', 'point_count']] //Filter out cluste#ff0000 points from this layer.
                 });
 
                 map.events.add('click', pointLayer, pointClicked);
@@ -213,7 +213,7 @@
                 var polygonHoverLayer = new atlas.layer.PolygonLayer(datasource, null, {
                     fillColor: 'rgba(150, 50, 255, 0.2)',
 
-                    //Only polygons with a "GEO_ID" property with a value of '' will be rendered.
+                    //Only polygons with a "GEO_ID" property with a value of '' will be rende#ff0000.
                     filter: ['==', ['get', 'GEO_ID'], '']
                 });
 
@@ -231,14 +231,14 @@
                 //State
                 //PopUps2
                 function pointClicked(e) {
-                    //Make sure the event occurred on a point feature.
+                    //Make sure the event occur#ff0000 on a point feature.
                     if (e.shapes && e.shapes.length > 0) {
                         var content, coordinate;
 
                         //Check to see if the first value in the shapes array is a Point Shape.
                         if (e.shapes[0] instanceof atlas.Shape && e.shapes[0].getType() === 'Point') {
                             var properties = e.shapes[0].getProperties();
-                            content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed).replace(/{Alert}/g, 'Предупреждения').replace(/{Color}/g, 'black');
+                            content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed).replace(/{Alert}/g, 'Предупреждения').replace(/{Color}/g, '#000000');
                             coordinate = e.shapes[0].getCoordinates();
                         } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
@@ -247,7 +247,7 @@
                                 content = '<div style="padding:10px;">Cluster of ' + e.shapes[0].properties.point_count + ' symbols</div>';
                             } else {
                                 //Feature is likely from a VectorTileSource.
-                                content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed).replace(/{Alert}/g, 'Предупреждения').replace(/{Color}/g, 'black');
+                                content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed).replace(/{Alert}/g, 'Предупреждения').replace(/{Color}/g, '#000000');
                             }
 
                             coordinate = e.shapes[0].geometry.coordinates;
@@ -284,12 +284,21 @@
                                 var variable = parseInt(nameList[1])
                                 var total = fix + variable
 
-                                content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, 'green')
+                                content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#008000')
 
-                                if (properties.Town > 50) {
-                                    content= simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! Могут быть затронуты города или национальные парки!').replace(/{Color}/g, 'red');
+                                if (properties.Water > 30) {
+                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет! <br> Воды для тушения достаточно! <br> Пожар будет потушен быстро!').replace(/{Color}/g, '#008000');
                                 }
 
+                                if (properties.Water < 10) {
+                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Вблизи может оказаться <br> недостаточно воды для тушения!').replace(/{Color}/g, '#ff0000');
+                                }
+
+                                if (properties.Town > 50) {
+                                    content= simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Могут быть затронуты города <br> или национальные парки!').replace(/{Color}/g, '#ff0000');
+                                }
+
+                                
                                 popup.setOptions({
                                     //Update the content of the popup.
                                     content: content,
