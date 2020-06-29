@@ -35,11 +35,11 @@ namespace WebApplication3.Controllers
 
             double prov = go.PROV[province];
             go.StartGet(prov, hectares, town, water, ref a, ref b);
-     //       res = res_.Remove(0, 15);
-       //     res = res.TrimEnd('}', ']', '"');
-         //   res_double = double.Parse(res);
-         
-            return "Value: " + a.ToString() + "$";
+            //       res = res_.Remove(0, 15);
+            //     res = res.TrimEnd('}', ']', '"');
+            //   res_double = double.Parse(res);
+            string result = a.ToString() + ";" +  b.ToString();
+            return result;
             //   return View();
         }
 
@@ -116,6 +116,11 @@ namespace WebApplication3.Controllers
             double forest = 100 - town - water;
             variable = variableFunc(prov, hectares, town, forest, water);///double var
             fix = fixedFunc(prov, hectares, ref variable, water);
+
+            double fixedCost = Convert.ToSingle(fix);
+            fixedCost =  Math.Round(fixedCost, 0);
+            variable = Math.Round(variable, 0);
+            fix = fixedCost.ToString();
             return fix;
         }
 

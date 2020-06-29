@@ -134,3 +134,4 @@ C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\W
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.pdb
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.genruntimeconfig.cache
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.csproj.CopyComplete
+C:\Users\schis\Desktop\WebApplication3\WebApplication3\bin\Debug\netcoreapp2.1\Views\Home\fires.json

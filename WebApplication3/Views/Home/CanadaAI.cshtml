@@ -132,7 +132,7 @@
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/canada_provinces.geojson';
         var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> {Size} hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$</div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
-        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/SamplePoiDataSet.json';
+        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/fires.json';
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -270,9 +270,22 @@
                               town: properties.Town,
                               water: properties.Water
                           }),
-                          success: function() {
-                            alert("Successfully posted!");
-                          }
+                            success: function (result) {
+                                var nameList = result.split(";");
+                                var fix = parseInt(nameList[0])
+                                var variable = parseInt(nameList[1])
+                                var total = fix + variable
+
+                                content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix)
+
+                                popup.setOptions({
+                                    //Update the content of the popup.
+                                    content: content,
+
+                                    //Update the position of the popup with the symbols coordinate.
+                                    position: coordinate
+                                });
+                            }
                         });
 
 
