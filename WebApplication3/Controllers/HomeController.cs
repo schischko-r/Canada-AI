@@ -132,8 +132,8 @@ namespace WebApplication3.Controllers
             d[2] = HECT_COEF;
             d[3] = HARDWOOD;
             d[4] = SOFTWOOD;
-            double variable = (VARIABLE[prov]["Town"] * 7.75 * hectares * town / 100 + (VARIABLE[prov]["Road"] * 2.96 + VARIABLE[prov]["Railroad"] * 3.05)
-                * hectares * forest / 100 - water * hectares * 1.25 / 100) * 8.65;
+            double variable = (VARIABLE[prov]["Town"] * 7.75 * hectares * town / 100) + (VARIABLE[prov]["Road"] * 2.96 + VARIABLE[prov]["Railroad"] * 3.05)
+                * hectares * forest / 100 - (water * hectares * 1.25 / 100) * 5.65;
             if (variable <= 10)
                 return 0;
             return variable;
@@ -199,9 +199,8 @@ namespace WebApplication3.Controllers
                 tmp = double.Parse(resStr);
 
                 if (water != 0)
-                    tmp = (tmp * hectares / HECT_COEF[prov]) * (-Math.Log(water / 100)) / 2;
-                else
-                    tmp = (tmp * hectares / HECT_COEF[prov]);
+                    tmp = tmp  * (-Math.Log(water / 100));
+
                 if (tmp <= 10)
                     return ("0");
                 return tmp.ToString();
