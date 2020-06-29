@@ -30,7 +30,7 @@
 {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.102109,53.648053]},"properties":{"State": "Newfoundland and Labrador","Size":"200", "Town":"21","Water":"34", "Fixed":"...", "Variable":"...", "Total":"..."}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.097629,53.650085]},"properties":{"State": "Newfoundland and Labrador","Size":"91", "Town":"23","Water":"33", "Fixed":"...", "Variable":"...", "Total":"..."}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.097135,53.648539]},"properties":{"State": "Newfoundland and Labrador","Size":"50", "Town":"25","Water":"35", "Fixed":"...", "Variable":"...", "Total":"..."}},
-{"type":"Feature","geometry":{"type":"Point","coordinates":[-61.096913,53.647321]},"properties":{"State": "Newfoundland and Labrador","Size":"111", "Town":"21","Water":"31", "Fixed":"...", "Variable":"...", "Total":"..."}}
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-61.096913,53.647321]},"properties":{"State": "Newfoundland and Labrador","Size":"111", "Town":"21","Water":"31", "Fixed":"...", "Variable":"...", "Total":"..."}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[-104.516078,50.582054]},"properties":{"State": "Saskatchewan","Size":"350", "Town":"82","Water":"10", "Fixed":"...", "Variable":"...", "Total":"..."}}
     ]
 }
