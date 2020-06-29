@@ -12,12 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Views\Home\canada_provinces.geojson" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Home\Canada.cshtml" />
-    <Resource Include="Views\Home\CanadaAI.cshtml" />
+    <None Include="Views\Home\CanadaAI.cshtml" />
     <None Include="Views\Home\Contacts.cshtml" />
     <None Include="Views\Home\Info.cshtml" />
     <None Include="wwwroot\lib\bootstrap\canada_provinces.geojson" />
@@ -26,19 +22,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Views\Home\canada_provinces.geojson" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Views\Home\SamplePoiDataSet.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\lib\bootstrap\canada_provinces.geojson">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>

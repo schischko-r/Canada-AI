@@ -12,7 +12,7 @@
     <style>
         .customInfobox {
             width: 200px;
-            height: 100px;
+            height: 150px;
             text-align: center;
         }
 
@@ -22,11 +22,98 @@
             margin-top: 5px;
             margin-bottom: 7px;
         }
+
+        body {
+            font-family: "Century Gothic", sans-serif;
+            background: url("images/fire.jpg") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .glavn {
+            background-color: black;
+            font-size: 20px;
+            padding: 20px;
+        }
+
+            .glavn li {
+                text-transform: uppercase;
+                font-weight: bold;
+                display: inline-block;
+                padding-left: 80px;
+            }
+
+
+                .glavn li a {
+                    text-decoration: none;
+                    color: white;
+                }
+
+                    .glavn li a:hover {
+                        color: firebrick;
+                    }
+
+        footer {
+            color: white;
+            height: 100px;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        table {
+            color: white;
+            width: 800px;
+            height: 400px;
+        }
+
+        table, td {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid white;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        input[type="text"], textarea {
+            text-transform: capitalize;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            border-radius: 10px;
+        }
+
+            input[type="text"], input[type="email"], input[type="tel"], textarea:focus {
+                border-radius: 10px;
+            }
+
+            input[type="text"], input[type="email"], input[type="tel"], textarea:active {
+                outline: none;
+            }
+
+            textarea:focus {
+                outline: none;
+            }
+
+        form {
+            width: 300px;
+            color: white;
+        }
+
+        .all {
+            box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+        }
+
+        .bound {
+            font-size: 25px;
+            font-weight: bold;
+        }
     </style>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
-    <link rel="stylesheet" href="style.css?0393243">
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
     <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
@@ -36,22 +123,16 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
-        $.ajax({
-            type: "POST",
-            url: "neuralmain.py",
-            data: { param: text }
-        }).done(function (o) {
-            // do something
-            console.log("log");
-        });
+
     </script>
     <script type='text/javascript'>
         var map, datasource;
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
-        var stateBoundaries = 'canada_provinces.geojson';
-        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire">{EntityType}</div>State: {State}<br>Burning area: {Size} hectares</div>';
-        var geojsonFeed = 'Views/Home/SamplePoiDataSet.json';
+        //var stateBoundaries = 'canada_provinces.geojson';
+        var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/canada_provinces.geojson';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> {Size} hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$</div>';
+        //var geojsonFeed = 'SamplePoiDataSet.json';
+        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/SamplePoiDataSet.json';
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -139,14 +220,6 @@
 
                 // When the user moves their mouse over the polygonLayer, we'll update the filter in
                 // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
-                map.events.add('mousemove', polygonLayer, function (e) {
-                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], e.shapes[0].getProperties().GEO_ID] });
-                });
-
-                // Reset the polygonHoverLayer layer's filter when the mouse leaves the layer.
-                map.events.add('mouseleave', polygonLayer, function (e) {
-                    polygonHoverLayer.setOptions({ filter: ['==', ['get', 'GEO_ID'], ''] });
-                });
                 //State
                 //PopUps2
                 function pointClicked(e) {
@@ -157,7 +230,7 @@
                         //Check to see if the first value in the shapes array is a Point Shape.
                         if (e.shapes[0] instanceof atlas.Shape && e.shapes[0].getType() === 'Point') {
                             var properties = e.shapes[0].getProperties();
-                            content = simplePopupTemplate.replace(/{EntityType}/g, properties.EntityType).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size);
+                            content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed);
                             coordinate = e.shapes[0].getCoordinates();
                         } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
@@ -166,7 +239,7 @@
                                 content = '<div style="padding:10px;">Cluster of ' + e.shapes[0].properties.point_count + ' symbols</div>';
                             } else {
                                 //Feature is likely from a VectorTileSource.
-                                content = simplePopupTemplate.replace(/{EntityType}/g, properties.EntityType).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size);
+                                content = simplePopupTemplate.replace(/{Total}/g, properties.Total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, properties.Variable).replace(/{Fixed}/g, properties.Fixed)
                             }
 
                             coordinate = e.shapes[0].geometry.coordinates;
@@ -185,6 +258,24 @@
                             //Open the popup.
                             popup.open(map);
                         }
+
+                        $.ajax({
+                          type: 'POST',
+                          url: '@Url.Action("Button_click", "Home")',
+                          dataType: 'html',
+                          data: ({
+                          //insert your parameters to pass to controller
+                              province: properties.State,
+                              hectares: properties.Size,
+                              town: properties.Town,
+                              water: properties.Water
+                          }),
+                          success: function() {
+                            alert("Successfully posted!");
+                          }
+                        });
+
+
                     }
                 }
                 //PopUps2
@@ -196,8 +287,8 @@
 
 <body onload="GetMap()">
     <div id="myMap" style="position:relative;width:70%;min-width:290px;height:600px;"></div>
-    <div id="measurementInfo" style="position:absolute;top:110px;left:10px;background-color:white;border-radius:10px;padding:10px;"></div>
-    <input type="button" title="Delete" value="D" onclick="location.href='@Url.Action("Button_click", "Home")'" />
+    
+    <input type="button" title="Evaluate the cost of wild fire" value="Evaluate" onclick="location.href='@Url.Action("Button_click", "Home")'" />
     <hr>
     <footer>
         &copy;Vacanda

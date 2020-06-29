@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
         }
 
     //    [HttpPost]
-        public string Button_click(object sender, EventArgs e)
+        public string Button_click(object sender, EventArgs e, string province, double hectares, double  town, double water)
         {
             string a = "";
             double b = 2;
@@ -32,7 +32,9 @@ namespace WebApplication3.Controllers
             string res;
         //    double res_double;
             Gogo go = new Gogo();
-            go.StartGet(1, 1, 20, 20, ref a, ref b);
+
+            double prov = go.PROV[province];
+            go.StartGet(prov, hectares, town, water, ref a, ref b);
      //       res = res_.Remove(0, 15);
        //     res = res.TrimEnd('}', ']', '"');
          //   res_double = double.Parse(res);
