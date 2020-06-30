@@ -23,22 +23,22 @@ namespace WebApplication3.Controllers
             return View();
         }
 
-    //    [HttpPost]
-        public string Button_click(object sender, EventArgs e, string province, double hectares, double  town, double water)
+        //    [HttpPost]
+        public string Button_click(object sender, EventArgs e, string province, double hectares, string type, double town, double water)
         {
             string a = "";
             double b = 2;
-   //         string res_;
-            string res;
-        //    double res_double;
+            double t = 0;
+            //         string res_;
+            //    double res_double;
             Gogo go = new Gogo();
 
             double prov = go.PROV[province];
-            go.StartGet(prov, hectares, town, water, ref a, ref b);
+            go.StartGet(prov, hectares, type, town, water, ref a, ref b, ref t);
             //       res = res_.Remove(0, 15);
             //     res = res.TrimEnd('}', ']', '"');
             //   res_double = double.Parse(res);
-            string result = a.ToString() + ";" +  b.ToString();
+            string result = a.ToString() + ";" + b.ToString() + ";" + t.ToString();
             return result;
             //   return View();
         }
@@ -111,14 +111,15 @@ namespace WebApplication3.Controllers
             MyDict.initSOFTWOOD(ref SOFTWOOD);
         }
 
-        public string StartGet(double prov, double hectares, double town, double water, ref string fix, ref double variable) ///main
+        public string StartGet(double prov, double hectares, string type, double town, double water, ref string fix, ref double variable, ref double time) ///main
         {
             double forest = 100 - town - water;
             variable = variableFunc(prov, hectares, town, forest, water);///double var
-            fix = fixedFunc(prov, hectares, ref variable, water);
+            time = Convert.ToSingle(get_time(hectares, type));
+            fix = fixedFunc(prov, hectares, ref variable, water, ref time);
 
             double fixedCost = Convert.ToSingle(fix);
-            fixedCost =  Math.Round(fixedCost, 0);
+            fixedCost = Math.Round(fixedCost, 0);
             variable = Math.Round(variable, 0);
             fix = fixedCost.ToString();
             return fix;
@@ -149,7 +150,7 @@ namespace WebApplication3.Controllers
             return (res);
         }
 
-        public string fixedFunc(double prov, double hectares, ref double variable, double water)
+        public string fixedFunc(double prov, double hectares, ref double variable, double water, ref double time)
         {
             string scoringUri = "http://7c8d350d-eb8a-4a0c-8839-aacc0e79d5e3.westeurope.azurecontainer.io/score";
             string authKey = "";
@@ -172,14 +173,6 @@ namespace WebApplication3.Controllers
                 };
 
 
-            //    if water != 0:
-            //    fixed = (fixed * hectares / d.HECT_COEF[prov])*(-m.log(water / 100)) / 2
-            //  else:
-            //   fixed = (fixed * hectares / d.HECT_COEF[prov])
-            // if fixed <= 10:
-            //   return 0
-            // return fixed
-
 
             // Create the HTTP client
             HttpClient client = new HttpClient();
@@ -199,12 +192,114 @@ namespace WebApplication3.Controllers
                 tmp = double.Parse(resStr);
 
                 if (water != 0)
-                    tmp = tmp  * (-Math.Log(water / 100));
+                    tmp = (tmp * (-Math.Log(water / 100)) / (12 * 30)) * time;
 
                 if (tmp <= 10)
                     return ("0");
                 return tmp.ToString();
-             //   return response.Content.ReadAsStringAsync().Result;
+                //   return response.Content.ReadAsStringAsync().Result;
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine(e.Message);
+            }
+            return null;
+        }
+
+        public string get_time(double hectares, string type)
+        {
+            string scoringUri = "http://e15cd904-a489-4c0d-b832-423f2e28417a.westeurope.azurecontainer.io/score";
+            string authKey = "";
+            string resStr;
+
+            // Set the data to be sent to the service.
+            // In this case, we are sending two sets of data to be scored.
+            InputData payload = new InputData();
+
+            int size = 0;
+
+            //A class = 0 to 0.1 ha
+            //B class > 0.1 ha to 4.0 ha
+            //C class > 4.0 ha to 40.0 ha
+            //D class > 40.0 ha to 200 ha
+            //E class > 200 ha
+
+
+            switch (hectares)
+            {
+                case double h when (h >= 0 && h <= 0.1):
+                    size = 0;
+                    break;
+
+                case double h when (h > 0.1 && h <= 4):
+                    size = 1;
+                    break;
+
+                case double h when (h > 4 && h <= 40):
+                    size = 2;
+                    break;
+
+                case double h when (h > 40 && h <= 200):
+                    size = 3;
+                    break;
+
+                case double h when (h > 200):
+                    size = 4;
+                    break;
+            }
+
+            int firetype = 0;
+            switch (type.ToLower())
+            {
+                case string h when (h == "bh"):
+                    firetype = 0;
+                    break;
+                case string h when (h == "uc"):
+                    firetype = 1;
+                    break;
+                case string h when (h == "to"):
+                    firetype = 2;
+                    break;
+            }
+
+            payload.data = new double[,] {
+                {
+                        size,
+                        hectares,
+                        firetype,
+                        }
+                };
+
+
+
+            // Create the HTTP client
+            HttpClient client = new HttpClient();
+            // Set the auth header. Only needed if the web service requires authentication.
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authKey);
+
+            // Make the request
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(scoringUri));
+                request.Content = new StringContent(JsonConvert.SerializeObject(payload));
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.SendAsync(request).Result;
+                // Display the response from the web service
+                //      Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                resStr = cutStr(response.Content.ReadAsStringAsync().Result);
+
+                double time = double.Parse(resStr);
+                if (hectares != 0)
+                {
+                    if (hectares > 1)
+                        time = Math.Round(time, 0) * Math.Log10(hectares);
+                    else
+                        time = Math.Round(time, 0) * hectares;
+                    return time.ToString();
+                }
+                else
+                    return "0";
+                //   return response.Content.ReadAsStringAsync().Result;
             }
             catch (Exception e)
             {
@@ -403,183 +498,8 @@ namespace WebApplication3.Controllers
             d.Add(13, 0.9);
         }
     }
-
-
-
-
-
-    /*       def variable(prov, hectares, town, forest, water):
-   d = dictmain()
-   variable = (d.variable[prov]['Town']*7.75*hectares* town/100 + (d.variable[prov]['Road']*2.96 + d.variable[prov]['Railroad']*3.05)*hectares* forest/100 - water* hectares*1.25/100)*8.65
-   if variable <=10:
-     return 0
-   return variable*/
-    /*
-    def fixedC(prov, hectares, extra, water) :
-        scoring_uri = 'http://7c8d350d-eb8a-4a0c-8839-aacc0e79d5e3.westeurope.azurecontainer.io/score'
-        key = ''
-
-        d = dictmain()
-
-        data = {"data":
-              [
-                  [
-                    prov,                                             # КОДИФИКАЦИЯ ПРОВИНЦИИ
-                    d.HARDWOOD[prov],                                 # HARDWOOD
-                    d.SOFTWOOD[prov],                                 # SOFTWOOD
-                    1 - d.HARDWOOD[prov] - d.SOFTWOOD[prov],          # UNDEFIGNED
-                    hectares,                                         # HECTARES BURNED
-                    extra                                             # ПОСТОРОННИЕ ЗАТРАТЫ
-                  ],
-
-              ]
-              }
-
-            input_data = json.dumps(data)
-
-            headers = { 'Content-Type': 'application/json' }
-        headers['Authorization'] = f'Bearer {key}'
-
-        resp = requests.post(scoring_uri, input_data, headers=headers)
-        fixed = float(re.findall(r"\d+\.\d+", resp.text)[0])
-
-        if water != 0:
-          fixed = (fixed * hectares / d.HECT_COEF[prov])*(-m.log(water / 100)) / 2
-        else:
-          fixed = (fixed * hectares / d.HECT_COEF[prov])
-        if fixed <= 10:
-          return 0
-        return fixed*/
-    /*
-    def main(prov, hectares, town, water):
-      forest = 100 - town - water
-
-      var = variable(prov, hectares, town, forest, water)
-      fixed = fixedC(prov, hectares, var, water)
-      return fixed, var*/
-
-
-
-
-
-
-    /*
-    def __init__(self):
-            self.PROV = {
-                'Canada':0,
-                'Ontario':1,
-                'British Columbia' :2,
-                'Quebec':3,
-                'Alberta':4,
-                'Manitoba':5,
-                'Nova Scotia':6,
-                'New Brunswick':7,
-                'Saskatchewan':8,
-                'Newfoundland and Labrador':9,
-                'Yukon':10,
-                'Northwest Territories':11,
-                'Prince Edward Island':12,
-                'Nunavut': 13}
-
-            self.HECT_COEF = {
-                0: 75.940546935,
-                1: 25.47817458,
-                2: 39.32252245,
-                3: 50.07386497,
-                4: 75.8843514,
-                5: 21.40350151,
-                6: 75.940546935,
-                7: 75.940546935,
-                8: 7.9709706229999995,
-                9: 75.940546935,
-                10: 10.18072289,
-                11: 15.78476854,
-                12: 75.940546935,
-                13: 75.940546935
-                }
-
-            self.HARDWOOD = {
-                0:0.07,
-                1:0.36,
-                2:0.04,
-                3:0.38,
-                4:0.44,
-                5:0.37,
-                6:0.28,
-                7:0.36,
-                8:0.43,
-                9:0.03,
-                10:0.08,
-                11:0.10,
-                12:0.35,
-                13:0.10
-                }
-
-            self.SOFTWOOD = {
-                0:0.03,
-                1:0.64,
-                2:0.96,
-                3:0.62,
-                4:0.56,
-                5:0.63,
-                6:0.72,
-                7:0.64,
-                8:0.57,
-                9:0.97,
-                10:0.92,
-                11:0.9,
-                12:0.65,
-                13:0.9
-                }
-
-            self.variable = {
-                4:{'Railroad':3.33277787035495,
-                    'Road': 33.3344442592902,
-                    'Town': 23.3327778703549},
-                2:{'Railroad':1.80036007201436,
-                    'Road': 18,
-                    'Town': 16.1996399279856},
-                5:{'Railroad':4.4166666666667,
-                    'Road': 10.4166666666667,
-                    'Town': 14.5833333333333},
-                7:{'Railroad':5.33277787035495,
-                    'Road': 29.4963129608801,
-                    'Town': 29.5036870391199},
-                11:{'Railroad':8.33277787035495,
-                    'Road': 54,
-                    'Town': 27},
-                1:{'Railroad':6.54515703831643,
-                    'Road': 32.7225126130632,
-                    'Town': 32.7323303486204},
-                3:{'Railroad':5.15789473684209,
-                    'Road': 46.4210526315788,
-                    'Town': 46.4210526315791},
-                8:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-                6:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-                0:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-                9:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-                10:{'Railroad':4.33277787035495,
-                    'Road': 44.5,
-                    'Town': 44.5},
-                12:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-                13:{'Railroad':2.33277787035495,
-                    'Road': 24,
-                    'Town': 24},
-            }
-
-    */
-
-
-
-
 }
+
+
+
+
