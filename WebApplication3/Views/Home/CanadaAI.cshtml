@@ -140,7 +140,7 @@
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/canada_provinces.geojson';
         var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> {Size} hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br><div class="Alert"><font color = "{Color}";>{Alert}<font></div></div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
-        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/fires.json';
+        var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/WebApplication3/master/WebApplication3/Views/Home/SamplePoiDataSet.json';
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -320,9 +320,8 @@
 </head>
 
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:70%;min-width:290px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
     
-    <input type="button" title="Evaluate the cost of wild fire" value="Evaluate" onclick="location.href='@Url.Action("Button_click", "Home")'" />
     <hr>
     <footer>
         &copy;Vacanda

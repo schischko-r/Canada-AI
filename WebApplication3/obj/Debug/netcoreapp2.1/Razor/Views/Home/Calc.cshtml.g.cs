@@ -57,7 +57,7 @@ using WebApplication3.Models;
             WriteLiteral("    <!DOCTYPE html>\r\n    <html lang=\"en\">\r\n    ");
             EndContext();
             BeginContext(177, 1023, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3db768d8c01b4321a0cb203de40e7473", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8150399200148c791c3709e8eae6783", async() => {
                 BeginContext(183, 1010, true);
                 WriteLiteral(@"
 
@@ -106,7 +106,7 @@ using WebApplication3.Models;
             WriteLiteral("\r\n    ");
             EndContext();
             BeginContext(1206, 136, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1dcdb011e65c4ea9bca4bb6a93fa3abd", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5afd2b8b494d4e8e8a5733505dd310f9", async() => {
                 BeginContext(1212, 123, true);
                 WriteLiteral("\r\n        <label title=\"Val\"></label>\r\n\r\n        <hr>\r\n        <footer>\r\n            &copy;Vacanda\r\n        </footer>\r\n    ");
                 EndContext();
