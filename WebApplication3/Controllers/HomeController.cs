@@ -29,18 +29,14 @@ namespace WebApplication3.Controllers
             string a = "";
             double b = 2;
             double t = 0;
-            //         string res_;
-            //    double res_double;
+
             Gogo go = new Gogo();
 
             double prov = go.PROV[province];
             go.StartGet(prov, hectares, type, town, water, ref a, ref b, ref t);
-            //       res = res_.Remove(0, 15);
-            //     res = res.TrimEnd('}', ']', '"');
-            //   res_double = double.Parse(res);
+
             string result = a.ToString() + ";" + b.ToString() + ";" + t.ToString();
             return result;
-            //   return View();
         }
 
         [HttpPost]
@@ -90,8 +86,7 @@ namespace WebApplication3.Controllers
     public class InputData
     {
         [JsonProperty("data")]
-        // The service used by this example expects an array containing
-        //   one or more arrays of doubles
+
         public double[,] data;
     }
     public class Gogo
@@ -114,7 +109,7 @@ namespace WebApplication3.Controllers
         public string StartGet(double prov, double hectares, string type, double town, double water, ref string fix, ref double variable, ref double time) ///main
         {
             double forest = 100 - town - water;
-            variable = variableFunc(prov, hectares, town, forest, water);///double var
+            variable = variableFunc(prov, hectares, town, forest, water);
             time = Convert.ToSingle(get_time(hectares, type));
             fix = fixedFunc(prov, hectares, ref variable, water, ref time);
 
@@ -212,8 +207,7 @@ namespace WebApplication3.Controllers
             string authKey = "";
             string resStr;
 
-            // Set the data to be sent to the service.
-            // In this case, we are sending two sets of data to be scored.
+
             InputData payload = new InputData();
 
             int size = 0;
@@ -223,7 +217,6 @@ namespace WebApplication3.Controllers
             //C class > 4.0 ha to 40.0 ha
             //D class > 40.0 ha to 200 ha
             //E class > 200 ha
-
 
             switch (hectares)
             {

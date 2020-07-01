@@ -5,17 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\Canada.cshtml" />
     <Content Remove="Views\Home\CanadaAI.cshtml" />
     <Content Remove="Views\Home\Contacts.cshtml" />
-    <Content Remove="Views\Home\Info.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Home\Canada.cshtml" />
     <None Include="Views\Home\CanadaAI.cshtml" />
     <None Include="Views\Home\Contacts.cshtml" />
-    <None Include="Views\Home\Info.cshtml" />
     <None Include="wwwroot\lib\bootstrap\canada_provinces.geojson" />
   </ItemGroup>
 

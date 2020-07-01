@@ -120,7 +120,6 @@ C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\W
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.TagHelpers.input.cache
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.TagHelpers.output.cache
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\WebApplication3.RazorCoreGenerate.cache
-C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\Razor\Views\Home\Calc.cshtml.g.cs
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\schis\Desktop\WebApplication3\WebApplication3\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.cshtml.g.cs
