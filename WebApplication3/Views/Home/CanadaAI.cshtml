@@ -141,6 +141,9 @@
         var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br><div class="Alert"><font color = "{Color}";>{Alert}<font></div><font color = "{timeColor}";>Пожар будет потушен через {Days} дней</font><br><font color = "#000000";>Текущий статус пожара:</font> {Status}</div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
         var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/fires.json';
+
+
+
         function GetMap() {
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
@@ -230,6 +233,9 @@
                 // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
                 //State
                 //PopUps2
+
+
+
                 function pointClicked(e) {
                     //Make sure the event occur#ff0000 on a point feature.
                     if (e.shapes && e.shapes.length > 0) {
@@ -265,20 +271,54 @@
 
                             //Open the popup.
                             popup.open(map);
+
                         }
 
-                        $.ajax({
-                          type: 'POST',
-                          url: '@Url.Action("Button_click", "Home")',
-                          dataType: 'html',
-                          data: ({
-                          //insert your parameters to pass to controller
-                              province: properties.State,
-                              hectares: properties.Size,
-                              type: properties.Type,
-                              town: properties.Town,
-                              water: properties.Water
-                          }),
+                        ajax()
+
+                        function ajax() {
+                            $.ajax({
+                                type: "GET",
+                                //url: "https://api.opencagedata.com/geocode/v1/json?q=" + coordinate[1] + "%2C+" + coordinate[0]+"&key=21b745a1cfd545dbbe493742cdd463fe&pretty=1",
+                                url: "http://www.mapquestapi.com/geocoding/v1/reverse?key=QpoHaIdp5vsKSyJtHhx1t4pDjq087gHO&location=" + coordinate[1] + "," + coordinate[0] + "&includeRoadMetadata=true&includeNearestIntersection=true",
+                                dataType: 'html',
+                                success: function (data) {
+                                    var json = JSON.parse(data)
+                                    var PROV = json['results'][0]['locations'][0]['adminArea3']
+                                    over()
+                                }
+
+                            })
+                        }
+
+                        function over() {
+                            $.ajax({
+                                type: "POST",
+                                url: 'http://overpass-api.de/api/interpreter',
+                                data = ({
+                                    'data=node%0A+%5Blanduse%5D%0A+(45.4%2C12.2%2C45.6%2C12.7)%3B%0A%0A%0Aout%3B%0A%0A%0A'
+                                }),
+                                dataType: 'json', 
+                                success: function (result) {
+                                    alert(result)
+                                }
+
+                            })
+                        }
+
+                        function my_magic_function(state) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("Button_click", "Home")',
+                                dataType: 'html',
+                                data: ({
+                                //insert your parameters to pass to controller
+                                    province: state,
+                                    hectares: properties.Size,
+                                    type: properties.Type,
+                                    town: properties.Town,
+                                    water: properties.Water
+                            }),
                             success: function (result) {
                                 var nameList = result.split(";");
                                 var fix = parseInt(nameList[0])
@@ -331,11 +371,21 @@
                                 });
                             }
                         });
+                        }
+
+
+
+
+
 
 
                     }
+
+
+
+
                 }
-                //PopUps2
+
             });
 
         }

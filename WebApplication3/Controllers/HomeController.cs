@@ -411,20 +411,20 @@ namespace WebApplication3.Controllers
 
         public static void initPROV(ref Dictionary<string, double> d)
         {
-            d.Add("Canada", 0);
-            d.Add("Ontario", 1);
-            d.Add("British Columbia", 2);
-            d.Add("Quebec", 3);
-            d.Add("Alberta", 4);
-            d.Add("Manitoba", 5);
-            d.Add("Nova Scotia", 6);
-            d.Add("New Brunswick", 7);
-            d.Add("Saskatchewan", 8);
-            d.Add("Newfoundland and Labrador", 9);
-            d.Add("Yukon", 10);
-            d.Add("Northwest Territories", 11);
-            d.Add("Prince Edward Island", 12);
-            d.Add("Nunavut", 13);
+            d.Add("CN", 0);
+            d.Add("ON", 1);
+            d.Add("BC", 2);
+            d.Add("QC", 3);
+            d.Add("AB", 4);
+            d.Add("MB", 5);
+            d.Add("NS", 6);
+            d.Add("NB", 7);
+            d.Add("SK", 8);
+            d.Add("NL", 9);
+            d.Add("YT", 10);
+            d.Add("NT", 11);
+            d.Add("PE", 12);
+            d.Add("NU", 13);
         }
 
         public static void initANOTER(ref Dictionary<double, double> d, int number)
