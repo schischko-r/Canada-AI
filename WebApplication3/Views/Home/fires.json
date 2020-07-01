@@ -10,6 +10,7 @@
 			"properties": {
 				"State": "Alberta",
 				"Size": "51",
+				"Type": "BH",
 				"Town": "3",
 				"Water": "58",
 				"Fixed": "...",
@@ -26,6 +27,7 @@
 			"properties": {
 				"State": "Alberta",
 				"Size": "5",
+				"Type": "TO",
 				"Town": "3",
 				"Water": "60",
 				"Fixed": "...",
@@ -42,6 +44,7 @@
 			"properties": {
 				"State": "Alberta",
 				"Size": "63",
+				"Type": "BH",
 				"Town": "3",
 				"Water": "44",
 				"Fixed": "...",
@@ -58,6 +61,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "73",
+				"Type": "BH",
 				"Town": "2",
 				"Water": "54",
 				"Fixed": "...",
@@ -74,6 +78,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "171",
+				"Type": "BH",
 				"Town": "2",
 				"Water": "51",
 				"Fixed": "...",
@@ -90,6 +95,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "154",
+				"Type": "TO",
 				"Town": "53",
 				"Water": "5",
 				"Fixed": "...",
@@ -106,6 +112,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "188",
+				"Type": "BH",
 				"Town": "42",
 				"Water": "2",
 				"Fixed": "...",
@@ -122,6 +129,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "79",
+				"Type": "BH",
 				"Town": "40",
 				"Water": "4",
 				"Fixed": "...",
@@ -138,6 +146,7 @@
 			"properties": {
 				"State": "Northwest Territories",
 				"Size": "50",
+				"Type": "BH",
 				"Town": "42",
 				"Water": "6",
 				"Fixed": "...",
@@ -154,6 +163,7 @@
 			"properties": {
 				"State": "British Columbia",
 				"Size": "34",
+				"Type": "BH",
 				"Town": "15",
 				"Water": "20",
 				"Fixed": "...",
@@ -170,6 +180,7 @@
 			"properties": {
 				"State": "British Columbia",
 				"Size": "99",
+				"Type": "TO",
 				"Town": "18",
 				"Water": "24",
 				"Fixed": "...",
@@ -186,6 +197,7 @@
 			"properties": {
 				"State": "British Columbia",
 				"Size": "179",
+				"Type": "TO",
 				"Town": "13",
 				"Water": "27",
 				"Fixed": "...",
@@ -202,6 +214,7 @@
 			"properties": {
 				"State": "British Columbia",
 				"Size": "197",
+				"Type": "BH",
 				"Town": "21",
 				"Water": "19",
 				"Fixed": "...",
@@ -218,6 +231,7 @@
 			"properties": {
 				"State": "British Columbia",
 				"Size": "103",
+				"Type": "BH",
 				"Town": "24",
 				"Water": "17",
 				"Fixed": "...",
@@ -234,6 +248,7 @@
 			"properties": {
 				"State": "Manitoba",
 				"Size": "103",
+				"Type": "BH",
 				"Town": "31",
 				"Water": "19",
 				"Fixed": "...",
@@ -250,6 +265,7 @@
 			"properties": {
 				"State": "Manitoba",
 				"Size": "194",
+				"Type": "UC",
 				"Town": "32",
 				"Water": "22",
 				"Fixed": "...",
@@ -266,6 +282,7 @@
 			"properties": {
 				"State": "Manitoba",
 				"Size": "74",
+				"Type": "BH",
 				"Town": "33",
 				"Water": "21",
 				"Fixed": "..."
@@ -280,6 +297,7 @@
 			"properties": {
 				"State": "Manitoba",
 				"Size": "197",
+				"Type": "BH",
 				"Town": "30",
 				"Water": "18",
 				"Fixed": "...",
@@ -295,7 +313,8 @@
 			},
 			"properties": {
 				"State": "Ontario",
-				"Size": "97",
+				"Size": "2",
+				"Type": "UC",
 				"Town": "27",
 				"Water": "45",
 				"Fixed": "...",
@@ -311,7 +330,8 @@
 			},
 			"properties": {
 				"State": "Ontario",
-				"Size": "194",
+				"Size": "0.5",
+				"Type": "TO",
 				"Town": "25",
 				"Water": "49",
 				"Fixed": "...",
@@ -328,6 +348,7 @@
 			"properties": {
 				"State": "Ontario",
 				"Size": "137",
+				"Type": "BH",
 				"Town": "26",
 				"Water": "51",
 				"Fixed": "...",
@@ -344,6 +365,7 @@
 			"properties": {
 				"State": "Ontario",
 				"Size": "91",
+				"Type": "BH",
 				"Town": "29",
 				"Water": "53",
 				"Fixed": "...",
@@ -360,6 +382,7 @@
 			"properties": {
 				"State": "Ontario",
 				"Size": "81",
+				"Type": "TO",
 				"Town": "28",
 				"Water": "49",
 				"Fixed": "...",
@@ -376,6 +399,7 @@
 			"properties": {
 				"State": "Quebec",
 				"Size": "1376",
+				"Type": "BH",
 				"Town": "25",
 				"Water": "38",
 				"Fixed": "...",
@@ -392,6 +416,7 @@
 			"properties": {
 				"State": "Quebec",
 				"Size": "82",
+				"Type": "UC",
 				"Town": "24",
 				"Water": "41",
 				"Fixed": "...",
@@ -408,6 +433,7 @@
 			"properties": {
 				"State": "Newfoundland and Labrador",
 				"Size": "162",
+				"Type": "BH",
 				"Town": "22",
 				"Water": "36",
 				"Fixed": "...",
@@ -424,6 +450,7 @@
 			"properties": {
 				"State": "Newfoundland and Labrador",
 				"Size": "200",
+				"Type": "UC",
 				"Town": "21",
 				"Water": "34",
 				"Fixed": "...",
@@ -440,6 +467,7 @@
 			"properties": {
 				"State": "Newfoundland and Labrador",
 				"Size": "91",
+				"Type": "BH",
 				"Town": "23",
 				"Water": "33",
 				"Fixed": "...",
@@ -456,6 +484,7 @@
 			"properties": {
 				"State": "Newfoundland and Labrador",
 				"Size": "50",
+				"Type": "UC",
 				"Town": "25",
 				"Water": "35",
 				"Fixed": "...",
@@ -472,6 +501,7 @@
 			"properties": {
 				"State": "Newfoundland and Labrador",
 				"Size": "111",
+				"Type": "TO",
 				"Town": "21",
 				"Water": "31",
 				"Fixed": "...",
@@ -488,6 +518,7 @@
 			"properties": {
 				"State": "Saskatchewan",
 				"Size": "350",
+				"Type": "TO",
 				"Town": "82",
 				"Water": "10",
 				"Fixed": "...",
