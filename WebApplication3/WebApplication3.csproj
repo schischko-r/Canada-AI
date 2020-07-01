@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Canada AI</AssemblyName>
+    <RootNamespace>CanadaAI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

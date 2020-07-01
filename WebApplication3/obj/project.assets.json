@@ -11801,11 +11801,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\schis\\Desktop\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
-      "projectName": "WebApplication3",
-      "projectPath": "C:\\Users\\schis\\Desktop\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+      "projectUniqueName": "C:\\Users\\schis\\Desktop\\Canada AI\\WebApplication3\\WebApplication3.csproj",
+      "projectName": "Canada AI",
+      "projectPath": "C:\\Users\\schis\\Desktop\\Canada AI\\WebApplication3\\WebApplication3.csproj",
       "packagesPath": "C:\\Users\\schis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\schis\\Desktop\\WebApplication3\\WebApplication3\\obj\\",
+      "outputPath": "C:\\Users\\schis\\Desktop\\Canada AI\\WebApplication3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

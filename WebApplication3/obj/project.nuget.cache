@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0Cs+HAShdsvWOxVvKum2ADg6E2SFIww9yOcGgJsP6pOq9+/QYe6LKkVWiWLT5/r8FsznvWki2EdhMuhLD6H1Jg==",
+  "dgSpecHash": "Z+Omgnjto5S4gkHgIrl1y/B/CvnQPmcsNDxfXB1GEJYJNAAfX+WTQ5otiIvJepTdKnRv0/O20XUawvWsSSgq+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\schis\\Desktop\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+  "projectFilePath": "C:\\Users\\schis\\Desktop\\Canada AI\\WebApplication3\\WebApplication3.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore\\2.1.1\\microsoft.aspnetcore.2.1.1.nupkg.sha512",
