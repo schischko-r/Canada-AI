@@ -149,7 +149,7 @@ namespace WebApplication3.Controllers
         {
             string scoringUri = "http://7c8d350d-eb8a-4a0c-8839-aacc0e79d5e3.westeurope.azurecontainer.io/score";
             string authKey = "";
-            double tmp;
+            double tmp; 
             string resStr;
 
             // Set the data to be sent to the service.

@@ -285,108 +285,441 @@
                                 success: function (data) {
                                     var json = JSON.parse(data)
                                     var PROV = json['results'][0]['locations'][0]['adminArea3']
-                                    over()
+                                    features(PROV)
                                 }
 
                             })
                         }
 
-                        function over() {
+                        function features(PROV) {
+                            var size = 100 * properties.Size * 10
                             $.ajax({
-                                type: "POST",
-                                url: 'http://overpass-api.de/api/interpreter',
-                                data = ({
-                                    'data=node%0A+%5Blanduse%5D%0A+(45.4%2C12.2%2C45.6%2C12.7)%3B%0A%0A%0Aout%3B%0A%0A%0A'
-                                }),
-                                dataType: 'json', 
-                                success: function (result) {
-                                    alert(result)
-                                }
+                                
+                                url: 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/tilequery/' + coordinate[0] + "," + coordinate[1] + '.json?radius=' + size +'&access_token=pk.eyJ1Ijoic2NoaXNjaGtvciIsImEiOiJja2MzOXpicHAwN3FsMzBxdXU5Z2EwYXlmIn0.4eWp3mohElC2RCbSSS8_Eg',
+                                dataType: 'html',
+                                type: 'GET',
 
+                                success: function (result) {
+                               
+                                    var json = JSON.parse(result)
+                                   
+                                    var infr = 0, water = 0, forest = 0
+                                    for (step = 0; step < json.features.length; step++) {
+                                        switch (json.features[step].properties.tilequery.layer) {
+                                            case 'airport_label':
+                                                switch (json.features[step].properties.maki) {
+                                                    case 'airport':
+                                                        infr += 10;
+                                                        break;
+                                                    case 'airfield':
+                                                        infr += 8;
+                                                        break;
+                                                    case 'heliport':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'rocket':
+                                                        infr += 5;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'building':
+                                                infr += 10;
+                                                break;
+
+                                            case 'landuse_overlay':
+                                                switch (json.features[step].properties.class) {
+                                                    case 'national_park':
+                                                        infr += 15;
+                                                        break;
+                                                    case 'wetland':
+                                                        forest += 10;
+                                                        break;
+                                                    case 'wetland_noveg':
+                                                        forest += 2;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'landuse':
+                                                switch (json.features[step].properties.class) {
+                                                    case 'aboriginal_lands':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'agriculture':
+                                                        infr += 2;
+                                                        forest += 5;
+                                                        break;
+                                                    case 'airport':
+                                                        infr += 9;
+                                                        break;
+                                                    case 'cemetery':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'grass':
+                                                        forest += 5;
+                                                        break;
+                                                    case 'hospital':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'park':
+                                                        infr += 5;
+                                                        forest += 4;
+                                                        break;
+                                                    case 'piste':
+                                                        infr += 5;
+                                                        forest += 2;
+                                                        break;
+                                                    case 'pitch':
+                                                        infr += 6;
+                                                        break;
+                                                    case 'school':
+                                                        infr += 9;
+                                                        break;
+                                                    case 'scrub':
+                                                        forest += 7;
+                                                        break;
+                                                    case 'wood':
+                                                        forest += 10;
+                                                        break;
+                                                    case 'facility':
+                                                        infr += 8;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'natural_label':
+                                                switch (json.features[step].properties.class) {
+                                                    case 'bay':
+                                                        water += 10;
+                                                        break;
+                                                    case 'canal':
+                                                        infr += 5;
+                                                        water += 5;
+                                                        break;
+                                                    case 'dock':
+                                                        infr += 8;
+                                                        water += 5;
+                                                        break;
+                                                    case 'ocean':
+                                                        water += 9;
+                                                        break;
+                                                    case 'reservoir':
+                                                        infr += 3;
+                                                        water += 8;
+                                                        break;
+                                                    case 'river':
+                                                        water += 3;
+                                                        break;
+                                                    case 'sea':
+                                                        water += 8;
+                                                        break;
+                                                    case 'stream':
+                                                        water += 2;
+                                                        break;
+                                                    case 'water':
+                                                        water += 9;
+                                                        break;
+                                                    case 'wetland':
+                                                        water += 2;
+                                                        forest += 7;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+
+                                                }
+                                                break;
+
+                                            case 'place_label':
+                                                switch (json.features[step].properties.type) {
+                                                    case 'city':
+                                                        infr += 10;
+                                                        break;
+                                                    case 'town':
+                                                        infr += 9;
+                                                        break;
+                                                    case 'village':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'hamlet':
+                                                        infr += 7;
+                                                        break;
+                                                    case 'quarter':
+                                                        infr += 7;
+                                                        break;
+                                                    case 'neighbourhood':
+                                                        infr += 6;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'road':
+                                                switch (json.features[step].properties.class) {
+                                                    case 'motorway':
+                                                        infr += 6;
+                                                        break;
+                                                    case 'motorway_link':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'trunk':
+                                                        infr += 7;
+                                                        break;
+                                                    case 'trunk_link':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'primary':
+                                                        infr += 8;
+                                                        break;
+                                                    case 'primary_link':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'secondary':
+                                                        infr += 6;
+                                                        break;
+                                                    case 'secondary_link':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'tertiary':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'tertiary_link':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'street':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'street_limited':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'pedestrian':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'construction':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'track':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'service':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'ferry':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'path':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'major_rail':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'minor_rail':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'service_rail':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'aerialway':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'golf':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'roundabout':
+                                                        infr += 4;
+                                                        break;
+                                                    case 'mini_roundabout':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'turning_circle':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'turning_loop':
+                                                        infr += 2;
+                                                        break;
+                                                    case 'traffic_signals':
+                                                        infr += 1;
+                                                        break;
+                                                    case 'junction':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'intersection':
+                                                        infr += 3;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'transit_stop_label':
+                                                switch (json.features[step].properties.mode) {
+                                                    case 'rail':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'metro_rail':
+                                                        infr += 7;
+                                                        break;
+                                                    case 'light_rail':
+                                                        infr += 5;
+                                                        break;
+                                                    case 'tram':
+                                                        infr += 6;
+                                                        break;
+                                                    case 'monorail':
+                                                        infr += 6;
+                                                        break;
+                                                    case 'funicular':
+                                                        infr += 4;
+                                                        break;
+                                                    case 'bicycle':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'bus':
+                                                        infr += 3;
+                                                        break;
+                                                    case 'ferry':
+                                                        infr += 2;
+                                                        break;
+                                                    default:
+                                                        infr += 0;
+                                                        forest += 0;
+                                                        water += 0;
+                                                }
+                                                break;
+
+                                            case 'water':
+                                                water += 10;
+                                                break;
+
+                                            case 'waterway':
+                                                switch (json.features[step].properties.class) {
+                                                    case 'river':
+                                                        water += 5;
+                                                        break;
+                                                    case 'canal':
+                                                        infr += 2;
+                                                        water += 4;
+                                                        break;
+                                                    case 'stream':
+                                                        water += 3;
+                                                        break;
+                                                    case 'stream_intermittent':
+                                                        water += 2;
+                                                        break;
+                                                    case 'drain': 
+                                                        water += 2;
+                                                        break;
+                                                    case 'ditch':
+                                                        water += 1;
+                                                        break;
+                                                }
+                                                break;
+                                            default:
+                                                infr = 10;
+                                                forest = 90;
+                                                water = 10;
+                                        }
+
+                                    }
+                                    res = [infr, forest, water]
+                                    sum = res.reduce((a, b) => a + b, 0);
+                                    res = [Math.round(infr * 100 / sum), Math.round(forest * 100 / sum), Math.round(water * 100 / sum)]
+                                    mainCalc(PROV, res)
+                                   
+                                }
                             })
                         }
 
-                        function my_magic_function(state) {
+                        function mainCalc(state,percentage) {
                             $.ajax({
                                 type: 'POST',
                                 url: '@Url.Action("Button_click", "Home")',
                                 dataType: 'html',
                                 data: ({
-                                //insert your parameters to pass to controller
+                                    //insert your parameters to pass to controller
                                     province: state,
                                     hectares: properties.Size,
                                     type: properties.Type,
-                                    town: properties.Town,
-                                    water: properties.Water
-                            }),
-                            success: function (result) {
-                                var nameList = result.split(";");
-                                var fix = parseInt(nameList[0])
-                                var variable = parseInt(nameList[1])
-                                var days = parseInt(nameList[2])
-                                var total = fix + variable
+                                    town: percentage[0],
+                                    water: percentage[2]
+                                }),
+                                success: function (result) {
+                                    var nameList = result.split(";");
+                                    var fix = parseInt(nameList[0])
+                                    var variable = parseInt(nameList[1])
+                                    var days = parseInt(nameList[2])
+                                    var total = fix + variable
 
-                                content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
+                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
 
-                                if (properties.Water > 30) {
-                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет! <br> Воды для тушения достаточно!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
-                                }
+                                    if (percentage[2] > 30) {
+                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет! <br> Воды для тушения достаточно!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
+                                    }
 
-                                if (properties.Water < 10) {
-                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Вблизи может оказаться <br> недостаточно воды для тушения!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
-                                }
+                                    if (percentage[2] < 10) {
+                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Вблизи может оказаться <br> недостаточно воды для тушения!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
+                                    }
 
-                                if (properties.Town > 50) {
-                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, properties.State).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Могут быть затронуты города <br> или национальные парки!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
-                                }
+                                    if (percentage[0] > 50) {
+                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Могут быть затронуты города <br> или национальные парки!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
+                                    }
 
-                                if (days > 14) {
-                                    content = content.replace(/{timeColor}/g, '#ff0000')
-                                }
+                                    if (days > 14) {
+                                        content = content.replace(/{timeColor}/g, '#ff0000')
+                                    }
 
-                                else if (days < 7) {
-                                    content = content.replace(/{timeColor}/g, '#008000')
-                                }
+                                    else if (days < 7) {
+                                        content = content.replace(/{timeColor}/g, '#008000')
+                                    }
 
-                                else {
-                                    content = content.replace(/{timeColor}/g, '#000000')
-                                }
+                                    else {
+                                        content = content.replace(/{timeColor}/g, '#000000')
+                                    }
 
-                                if (properties.Type == 'UC')
-                                {
-                                    content = content.replace(/{Status}/g, '<font color = "#008000";><br>очаг локализирован</font>')
-                                }
-                                else if (properties.Type == 'BH') {
-                                    content = content.replace(/{Status}/g, '<font color = "#ff0000";>сдерживается</font>')
-                                }
-                                else {
-                                    content = content.replace(/{Status}/g, '<font color = "#008000";>тушится</font>')
-                                }
-                                popup.setOptions({
-                                    //Update the content of the popup.
-                                    content: content,
+                                    if (properties.Type == 'UC') {
+                                        content = content.replace(/{Status}/g, '<font color = "#008000";><br>очаг локализирован</font>')
+                                    }
+                                    else if (properties.Type == 'BH') {
+                                        content = content.replace(/{Status}/g, '<font color = "#ff0000";>сдерживается</font>')
+                                    }
+                                    else {
+                                        content = content.replace(/{Status}/g, '<font color = "#008000";>тушится</font>')
+                                    }
+                                    popup.setOptions({
+                                        //Update the content of the popup.
+                                        content: content,
 
-                                    //Update the position of the popup with the symbols coordinate.
-                                    position: coordinate
-                                });
-                            }
-                        });
+                                        //Update the position of the popup with the symbols coordinate.
+                                        position: coordinate
+                                    });
+                                }
+                            });
                         }
-
-
-
-
-
-
 
                     }
 
-
-
-
                 }
 
-            });
+            })
 
         }
     </script>

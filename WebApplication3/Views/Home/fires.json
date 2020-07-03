@@ -10,8 +10,6 @@
 			"properties": {
 				"Size": "51",
 				"Type": "BH",
-				"Town": "3",
-				"Water": "58",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -26,8 +24,6 @@
 			"properties": {
 				"Size": "5",
 				"Type": "TO",
-				"Town": "3",
-				"Water": "60",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -42,8 +38,6 @@
 			"properties": {
 				"Size": "63",
 				"Type": "BH",
-				"Town": "3",
-				"Water": "44",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -56,11 +50,8 @@
 				"coordinates": [ -113.034551, 60.243345 ]
 			},
 			"properties": {
-
 				"Size": "73",
 				"Type": "BH",
-				"Town": "2",
-				"Water": "54",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -73,11 +64,8 @@
 				"coordinates": [ -113.077471, 60.216902 ]
 			},
 			"properties": {
-
 				"Size": "171",
 				"Type": "BH",
-				"Town": "2",
-				"Water": "51",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -90,11 +78,8 @@
 				"coordinates": [ -125.507997, 60.994219 ]
 			},
 			"properties": {
-
 				"Size": "154",
 				"Type": "TO",
-				"Town": "53",
-				"Water": "5",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -107,11 +92,8 @@
 				"coordinates": [ -125.634997, 60.968141 ]
 			},
 			"properties": {
-
 				"Size": "188",
 				"Type": "BH",
-				"Town": "42",
-				"Water": "2",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -126,8 +108,6 @@
 			"properties": {
 				"Size": "79",
 				"Type": "BH",
-				"Town": "40",
-				"Water": "4",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -142,8 +122,6 @@
 			"properties": {
 				"Size": "50",
 				"Type": "BH",
-				"Town": "42",
-				"Water": "6",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -156,11 +134,8 @@
 				"coordinates": [ -126.646578, 55.837007 ]
 			},
 			"properties": {
-
 				"Size": "34",
 				"Type": "BH",
-				"Town": "15",
-				"Water": "20",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -173,11 +148,8 @@
 				"coordinates": [ -126.691176, 55.811965 ]
 			},
 			"properties": {
-
 				"Size": "99",
 				"Type": "TO",
-				"Town": "18",
-				"Water": "24",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -193,8 +165,6 @@
 
 				"Size": "179",
 				"Type": "TO",
-				"Town": "13",
-				"Water": "27",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -210,8 +180,6 @@
 
 				"Size": "197",
 				"Type": "BH",
-				"Town": "21",
-				"Water": "19",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -227,8 +195,6 @@
 
 				"Size": "103",
 				"Type": "BH",
-				"Town": "24",
-				"Water": "17",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -244,8 +210,6 @@
 
 				"Size": "103",
 				"Type": "BH",
-				"Town": "31",
-				"Water": "19",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -261,8 +225,6 @@
 
 				"Size": "194",
 				"Type": "UC",
-				"Town": "32",
-				"Water": "22",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -278,8 +240,6 @@
 
 				"Size": "74",
 				"Type": "BH",
-				"Town": "33",
-				"Water": "21",
 				"Fixed": "..."
 			}
 		},
@@ -293,8 +253,6 @@
 
 				"Size": "197",
 				"Type": "BH",
-				"Town": "30",
-				"Water": "18",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -310,8 +268,6 @@
 
 				"Size": "2",
 				"Type": "UC",
-				"Town": "27",
-				"Water": "45",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -327,8 +283,6 @@
 
 				"Size": "0.5",
 				"Type": "TO",
-				"Town": "25",
-				"Water": "49",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -344,8 +298,6 @@
 
 				"Size": "137",
 				"Type": "BH",
-				"Town": "26",
-				"Water": "51",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -361,8 +313,6 @@
 
 				"Size": "91",
 				"Type": "BH",
-				"Town": "29",
-				"Water": "53",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -378,8 +328,6 @@
 
 				"Size": "81",
 				"Type": "TO",
-				"Town": "28",
-				"Water": "49",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -395,8 +343,6 @@
 
 				"Size": "1376",
 				"Type": "BH",
-				"Town": "25",
-				"Water": "38",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -412,8 +358,6 @@
 
 				"Size": "82",
 				"Type": "UC",
-				"Town": "24",
-				"Water": "41",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -429,8 +373,6 @@
 
 				"Size": "162",
 				"Type": "BH",
-				"Town": "22",
-				"Water": "36",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -446,8 +388,6 @@
 
 				"Size": "200",
 				"Type": "UC",
-				"Town": "21",
-				"Water": "34",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -463,8 +403,6 @@
 
 				"Size": "91",
 				"Type": "BH",
-				"Town": "23",
-				"Water": "33",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -480,8 +418,6 @@
 
 				"Size": "50",
 				"Type": "UC",
-				"Town": "25",
-				"Water": "35",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -497,8 +433,6 @@
 
 				"Size": "111",
 				"Type": "TO",
-				"Town": "21",
-				"Water": "31",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
@@ -514,8 +448,6 @@
 
 				"Size": "350",
 				"Type": "TO",
-				"Town": "82",
-				"Water": "10",
 				"Fixed": "...",
 				"Variable": "...",
 				"Total": "..."
