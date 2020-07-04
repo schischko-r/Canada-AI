@@ -11,8 +11,8 @@
 
     <style>
         .customInfobox {
-            width: 250px;
-            height: 220px;
+            width: 220px;
+            height: 120px;
             text-align: center;
         }
 
@@ -35,6 +35,17 @@
             font-family: "Century Gothic", sans-serif;
             background: url("images/fire.jpg") no-repeat center center fixed;
             background-size: cover;
+        }
+
+        .content {
+            background-color: #ffffff;
+            width: 50%;
+            font-size: 16px;
+            padding: 20px;
+
+            border: 3px solid black;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .glavn {
@@ -138,7 +149,7 @@
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
         //var stateBoundaries = 'canada_provinces.geojson';
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/canada_provinces.geojson';
-        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br><div class="Alert"><font color = "{Color}";>{Alert}<font></div><font color = "{timeColor}";>Пожар будет потушен через {Days} дней</font><br><font color = "#000000";>Текущий статус пожара:</font> {Status}</div>';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br></div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
         var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/fires.json';
 
@@ -234,9 +245,17 @@
                 //State
                 //PopUps2
 
-                var SIZE = Math.pow(10,5) * 100
+                var SIZE = Math.pow(10, 5) * 100
+                
 
                 function pointClicked(e) {
+
+                    var waterarr = []
+                    var parkarr = []
+                    var cities = []
+                    var buildings = []
+                    var citySTR = ""
+
                     //Make sure the event occur#ff0000 on a point feature.
                     if (e.shapes && e.shapes.length > 0) {
                         var content, coordinate;
@@ -279,7 +298,6 @@
                         function ajax() {
                             $.ajax({
                                 type: "GET",
-                                //url: "https://api.opencagedata.com/geocode/v1/json?q=" + coordinate[1] + "%2C+" + coordinate[0]+"&key=21b745a1cfd545dbbe493742cdd463fe&pretty=1",
                                 url: "http://www.mapquestapi.com/geocoding/v1/reverse?key=QpoHaIdp5vsKSyJtHhx1t4pDjq087gHO&location=" + coordinate[1] + "," + coordinate[0] + "&includeRoadMetadata=true&includeNearestIntersection=true",
                                 dataType: 'html',
                                 success: function (data) {
@@ -292,17 +310,22 @@
                         }
 
                         function features(PROV) {
-                            var size = SIZE * properties.Size  
+                            var size = SIZE * properties.Size
+
+                            
+
                             $.ajax({
-                                
-                                url: 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/tilequery/' + coordinate[0] + "," + coordinate[1] + '.json?radius=' + size +'&access_token=pk.eyJ1Ijoic2NoaXNjaGtvciIsImEiOiJja2MzOXpicHAwN3FsMzBxdXU5Z2EwYXlmIn0.4eWp3mohElC2RCbSSS8_Eg',
+
+                                url: 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/tilequery/' + coordinate[0] + "," + coordinate[1] + '.json?radius=' + size + '&access_token=pk.eyJ1Ijoic2NoaXNjaGtvciIsImEiOiJja2MzOXpicHAwN3FsMzBxdXU5Z2EwYXlmIn0.4eWp3mohElC2RCbSSS8_Eg',
                                 dataType: 'html',
                                 type: 'GET',
 
                                 success: function (result) {
-                               
+
                                     var json = JSON.parse(result)
-                                   
+
+                                    
+
                                     var infr = 0, water = 0, forest = 0
                                     for (step = 0; step < json.features.length; step++) {
                                         switch (json.features[step].properties.tilequery.layer) {
@@ -337,6 +360,8 @@
 
                                             case 'building':
                                                 infr += 10;
+                                                buildings.push(json.features[step].properties.tilequery.distance)
+
                                                 break;
                                             case 'housenum_label':
                                                 infr += 1;
@@ -462,20 +487,26 @@
                                                 switch (json.features[step].properties.type) {
                                                     case 'city':
                                                         infr += 10;
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         break;
                                                     case 'town':
                                                         infr += 9;
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         break;
                                                     case 'village':
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         infr += 5;
                                                         break;
                                                     case 'hamlet':
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         infr += 7;
                                                         break;
                                                     case 'quarter':
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         infr += 7;
                                                         break;
                                                     case 'neighbourhood':
+                                                        cities.push([json.features[step].properties.type, json.features[step].properties.name, json.features[step].properties.tilequery.distance])
                                                         infr += 6;
                                                         break;
                                                     default:
@@ -487,6 +518,10 @@
 
                                             case 'poi_label':
                                                 infr += 2;
+                                                switch (json.features[step].properties.type) {
+                                                    case 'National Park':
+                                                        parkarr.push([json.features[step].properties.name, json.features[step].properties.tilequery.distance])
+                                                }
                                                 break;
                                             case 'road':
                                                 switch (json.features[step].properties.class) {
@@ -627,6 +662,7 @@
 
                                             case 'water':
                                                 water += 10;
+                                                waterarr.push([json.features[step].properties.tilequery.layer, json.features[step].properties.tilequery.distance])
                                                 break;
 
                                             case 'waterway':
@@ -644,7 +680,7 @@
                                                     case 'stream_intermittent':
                                                         water += 2;
                                                         break;
-                                                    case 'drain': 
+                                                    case 'drain':
                                                         water += 2;
                                                         break;
                                                     case 'ditch':
@@ -652,15 +688,49 @@
                                                         break;
                                                 }
                                                 break;
-                                            
+
                                         }
 
                                     }
+
+                                    //var newWindow = window.open();
+                                    //newWindow.document.write(result);
+
                                     res = [infr, forest, water]
                                     sum = res.reduce((a, b) => a + b, 0);
                                     res = [Math.round(infr * 100 / sum), Math.round(forest * 100 / sum), Math.round(water * 100 / sum)]
                                     mainCalc(PROV, res)
-                                   
+
+                                    
+                                    if (cities.length != 0) {
+                                        for (step = 0; step < cities.length; step++) {
+                                            citySTR += 'Название: ' + cities[step][1] + '. Тип: ' + cities[step][0] + '. Расстояние: ' + Math.round((cities[step][2]/1000) * 100) / 100 + ' km<br>';
+
+                                        }
+                                        citySTR = "<font color = '#ff0000';><b>Города которые могут быть затронуты: <br></font></b>" + citySTR + '<br>'
+                                        
+                                    }
+                                    else {
+                                        if (buildings.length != 0) {
+                                            citySTR = "<b><font color = '#ff0000';>При пожаре могут быть задеты здания!<br></font></b><br>";
+                                        }
+                                    }
+                                    if (parkarr.length != 0) {
+                                        citySTR += "<b><font color = '#ff0000';>Национальные парки которые могут быть затронуты: <br></font></b>"
+                                        for (step = 0; step < parkarr.length; step++) {
+                                            citySTR += 'Название: ' + parkarr[step][0] + '. Расстояние: ' + Math.round((parkarr[step][1] / 1000) * 100) / 100 + ' km<br><br>';
+                                        }
+                                    }
+                                    if (waterarr.length != 0) {
+                                        citySTR += "<font color = '#008000';>Воды для тушения будет достаточно!<br></font>"
+                                    }
+
+                                    else {
+                                        citySTR += "<font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
+                                    }
+
+                                    
+
                                 }
                             })
                         }
@@ -687,18 +757,6 @@
 
                                     content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
 
-                                    if (percentage[2] > 30) {
-                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет! <br> Воды для тушения достаточно!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
-                                    }
-
-                                    if (percentage[2] < 10) {
-                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Вблизи может оказаться <br> недостаточно воды для тушения!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
-                                    }
-
-                                    if (percentage[0] > 50) {
-                                        content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Внимание! <br> Могут быть затронуты города <br> или национальные парки!').replace(/{Color}/g, '#ff0000').replace(/{Days}/g, days);
-                                    }
-
                                     if (days > 14) {
                                         content = content.replace(/{timeColor}/g, '#ff0000')
                                     }
@@ -711,15 +769,7 @@
                                         content = content.replace(/{timeColor}/g, '#000000')
                                     }
 
-                                    if (properties.Type == 'UC') {
-                                        content = content.replace(/{Status}/g, '<font color = "#008000";><br>очаг локализирован</font>')
-                                    }
-                                    else if (properties.Type == 'BH') {
-                                        content = content.replace(/{Status}/g, '<font color = "#ff0000";>сдерживается</font>')
-                                    }
-                                    else {
-                                        content = content.replace(/{Status}/g, '<font color = "#008000";>тушится</font>')
-                                    }
+                                    
                                     popup.setOptions({
                                         //Update the content of the popup.
                                         content: content,
@@ -727,6 +777,19 @@
                                         //Update the position of the popup with the symbols coordinate.
                                         position: coordinate
                                     });
+
+                                    citySTR += "Пожар будет потушен через: " + days + ' дней. <br>'
+                                    if (properties.Type == 'UC') {
+                                        citySTR += 'Текущий статус: <font color = "#008000";>очаг локализирован</font>'
+                                    }
+                                    else if (properties.Type == 'BH') {
+                                        citySTR += 'Текущий статус: <font color = "#ff0000";>сдерживается</font>'
+                                    }
+                                    else {
+                                        citySTR += 'Текущий статус: <font color = "#008000";>тушится</font>'
+                                    }
+                                    document.getElementById("content").innerHTML = citySTR;
+
                                 }
                             });
                         }
@@ -742,8 +805,12 @@
 </head>
 
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
-    
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div><br>
+        <div class="content">
+            <p id="content">
+                Выберите точку на карте!
+            </p>
+        </div>
     <hr>
     <footer>
         &copy;Vacanda
