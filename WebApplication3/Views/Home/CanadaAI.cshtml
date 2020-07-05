@@ -149,10 +149,9 @@
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
         //var stateBoundaries = 'canada_provinces.geojson';
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/canada_provinces.geojson';
-        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Total:</b> {Total}$</div><b>State:</b> {State}<br><b>Burning area:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Fixed Cost:</b> {Fixed}$<br><b>Variable Cost:</b> {Variable}$<br></div>';
+        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Всего:</b> {Total}$</div><b>Штат:</b> {State}<br><b>Площадь пожара:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Постоянные затраты:</b> {Fixed}$<br><b>Внештатные затраты:</b> {Variable}$<br></div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
         var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/fires.json';
-
 
 
         function GetMap() {
@@ -699,7 +698,7 @@
                                     res = [infr, forest, water]
                                     sum = res.reduce((a, b) => a + b, 0);
                                     res = [Math.round(infr * 100 / sum), Math.round(forest * 100 / sum), Math.round(water * 100 / sum)]
-                                    mainCalc(PROV, res)
+                                    
 
                                     
                                     if (cities.length != 0) {
@@ -729,7 +728,7 @@
                                         citySTR += "<font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
                                     }
 
-                                    
+                                    mainCalc(PROV, res)
 
                                 }
                             })

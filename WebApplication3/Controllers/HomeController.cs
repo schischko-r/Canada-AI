@@ -110,8 +110,8 @@ namespace WebApplication3.Controllers
         {
             double forest = 100 - town - water;
             variable = variableFunc(prov, hectares, town, forest, water);
-            time = Convert.ToSingle(get_time(hectares, type));
-            fix = fixedFunc(prov, hectares, ref variable, water, ref time);
+            time = Convert.ToSingle(get_time2(hectares, type));
+            fix = fixedFunc2(prov, hectares, ref variable, water, ref time);
 
             double fixedCost = Convert.ToSingle(fix);
             fixedCost = Math.Round(fixedCost, 0);
@@ -299,6 +299,22 @@ namespace WebApplication3.Controllers
                 Console.Out.WriteLine(e.Message);
             }
             return null;
+        }
+        
+        public string get_time2(double hectares, string type) // ГАРБЕДЖ
+        {
+            var rnd = new Random(DateTime.Now.Millisecond);
+            int ticks = rnd.Next(0, 10);
+            var time = ticks.ToString();
+            return time;
+        }
+
+        public string fixedFunc2(double prov, double hectares, ref double variable, double water, ref double time) // ГАРБЕДЖ
+        {
+            var rnd = new Random(DateTime.Now.Millisecond);
+            int ticks = rnd.Next(0, 10000);
+            var dollar = ticks.ToString();
+            return dollar;
         }
     }
 
