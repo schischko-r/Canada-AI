@@ -10,6 +10,7 @@
       "properties": {
         "Size": "51",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -24,6 +25,7 @@
       "properties": {
         "Size": "5",
         "Type": "TO",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -38,6 +40,7 @@
       "properties": {
         "Size": "63",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -52,6 +55,7 @@
       "properties": {
         "Size": "73",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -66,6 +70,7 @@
       "properties": {
         "Size": "171",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -80,6 +85,7 @@
       "properties": {
         "Size": "154",
         "Type": "TO",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -94,6 +100,7 @@
       "properties": {
         "Size": "188",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -108,6 +115,7 @@
       "properties": {
         "Size": "79",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -122,6 +130,7 @@
       "properties": {
         "Size": "50",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -136,6 +145,7 @@
       "properties": {
         "Size": "34",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -150,6 +160,7 @@
       "properties": {
         "Size": "99",
         "Type": "TO",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -165,6 +176,7 @@
 
         "Size": "179",
         "Type": "TO",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -180,6 +192,7 @@
 
         "Size": "197",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -195,6 +208,7 @@
 
         "Size": "103",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -210,6 +224,7 @@
 
         "Size": "103",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -225,6 +240,7 @@
 
         "Size": "194",
         "Type": "UC",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -240,7 +256,10 @@
 
         "Size": "74",
         "Type": "BH",
-        "Fixed": "..."
+        "Layer": "Ground",
+        "Fixed": "...",
+        "Variable": "...",
+        "Total": "..."
       }
     },
     {
@@ -253,6 +272,7 @@
 
         "Size": "197",
         "Type": "BH",
+        "Layer": "Ground",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -268,6 +288,7 @@
 
         "Size": "2",
         "Type": "UC",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -283,6 +304,7 @@
 
         "Size": "0.5",
         "Type": "TO",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -298,6 +320,7 @@
 
         "Size": "137",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -313,6 +336,7 @@
 
         "Size": "91",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -328,6 +352,7 @@
 
         "Size": "81",
         "Type": "TO",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -343,6 +368,7 @@
 
         "Size": "1376",
         "Type": "BH",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -358,6 +384,7 @@
 
         "Size": "82",
         "Type": "UC",
+        "Layer": "Surface",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -373,6 +400,7 @@
 
         "Size": "162",
         "Type": "BH",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -388,6 +416,7 @@
 
         "Size": "200",
         "Type": "UC",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -403,6 +432,7 @@
 
         "Size": "91",
         "Type": "BH",
+        "Layer": "Ground",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -418,6 +448,7 @@
 
         "Size": "50",
         "Type": "UC",
+        "Layer": "Crown",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -433,6 +464,7 @@
 
         "Size": "111",
         "Type": "TO",
+        "Layer": "Ground",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."
@@ -448,6 +480,7 @@
 
         "Size": "350",
         "Type": "TO",
+        "Layer": "Ground",
         "Fixed": "...",
         "Variable": "...",
         "Total": "..."

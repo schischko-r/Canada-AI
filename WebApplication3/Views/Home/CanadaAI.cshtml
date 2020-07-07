@@ -727,8 +727,18 @@
                                         citySTR += "<font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
                                     }
 
-                                    mainCalc(PROV, res)
+                                    $.ajax({
+                                        url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + coordinate[1].toFixed() + '&lon=' + coordinate[0].toFixed() + '&appid=c6dfa17d0a8acd78f0aed0116b2a06b8',
+                                        dataType: 'html',
+                                        type: 'GET',
 
+                                        success: function (result) {
+                                            
+                                            var json = JSON.parse(result)
+                                            res[3] = parseInt(json.main.humidity / 20)  - 1
+                                            mainCalc(PROV, res)
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -744,7 +754,8 @@
                                     hectares: properties.Size,
                                     type: properties.Type,
                                     town: percentage[0],
-                                    water: percentage[2]
+                                    water: percentage[2],
+                                    weather: percentage[3],
                                 }),
                                 success: function (result) {
                                     var nameList = result.split(";");

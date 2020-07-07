@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
         }
 
         //    [HttpPost]
-        public string Button_click(object sender, EventArgs e, string province, double hectares, string type, double town, double water)
+        public string Button_click(object sender, EventArgs e, string province, double hectares, string type, double town, double water, int weather)
         {
             string a = "";
             double b = 2;
@@ -33,7 +33,7 @@ namespace WebApplication3.Controllers
             Gogo go = new Gogo();
 
             double prov = go.PROV[province];
-            go.StartGet(prov, hectares, type, town, water, ref a, ref b, ref t);
+            go.StartGet(prov, hectares, type, town, water, weather, ref a, ref b, ref t);
 
             string result = a.ToString() + ";" + b.ToString() + ";" + t.ToString();
             return result;
@@ -106,12 +106,12 @@ namespace WebApplication3.Controllers
             MyDict.initSOFTWOOD(ref SOFTWOOD);
         }
 
-        public string StartGet(double prov, double hectares, string type, double town, double water, ref string fix, ref double variable, ref double time) ///main
+        public string StartGet(double prov, double hectares, string type, double town, double water, int weather, ref string fix, ref double variable, ref double time) ///main
         {
             double forest = 100 - town - water;
             variable = variableFunc(prov, hectares, town, forest, water);
-            time = Convert.ToSingle(get_time2(hectares, type));
-            fix = fixedFunc2(prov, hectares, ref variable, water, ref time);
+            time = Convert.ToSingle(get_time(hectares, type, weather));
+            fix = fixedFunc(prov, hectares, ref variable, water, ref time);
 
             double fixedCost = Convert.ToSingle(fix);
             fixedCost = Math.Round(fixedCost, 0);
@@ -147,7 +147,7 @@ namespace WebApplication3.Controllers
 
         public string fixedFunc(double prov, double hectares, ref double variable, double water, ref double time)
         {
-            string scoringUri = "http://7c8d350d-eb8a-4a0c-8839-aacc0e79d5e3.westeurope.azurecontainer.io/score";
+            string scoringUri = "http://ca6b3c5b-f295-4395-bb5b-26b9c80a70eb.westeurope.azurecontainer.io/score";
             string authKey = "";
             double tmp; 
             string resStr;
@@ -158,6 +158,7 @@ namespace WebApplication3.Controllers
 
             payload.data = new double[,] {
                 {
+                        DateTime.Now.Year,
                         prov,
                         HARDWOOD[prov],
                         SOFTWOOD[prov],
@@ -201,66 +202,37 @@ namespace WebApplication3.Controllers
             return null;
         }
 
-        public string get_time(double hectares, string type, double weather) // ИМПЛЕМЕНТИТЬ ПОГОДУ
+        public string get_time(double hectares, string ftype, double weather) // ИМПЛЕМЕНТИТЬ ПОГОДУ
         {
-            string scoringUri = "http://e15cd904-a489-4c0d-b832-423f2e28417a.westeurope.azurecontainer.io/score";
+            string scoringUri = "http://4a0ece96-bb3f-47fe-8eba-ec81778bca6b.westeurope.azurecontainer.io/score";
             string authKey = "";
             string resStr;
 
 
             InputData payload = new InputData();
 
-            int size = 0;
-
-            //A class = 0 to 0.1 ha
-            //B class > 0.1 ha to 4.0 ha
-            //C class > 4.0 ha to 40.0 ha
-            //D class > 40.0 ha to 200 ha
-            //E class > 200 ha
-
-            switch (hectares)
-            {
-                case double h when (h >= 0 && h <= 0.1):
-                    size = 0;
-                    break;
-
-                case double h when (h > 0.1 && h <= 4):
-                    size = 1;
-                    break;
-
-                case double h when (h > 4 && h <= 40):
-                    size = 2;
-                    break;
-
-                case double h when (h > 40 && h <= 200):
-                    size = 3;
-                    break;
-
-                case double h when (h > 200):
-                    size = 4;
-                    break;
-            }
-
-            int firetype = 0;
-            switch (type.ToLower())
+            int fclass = 0;
+            switch (ftype.ToLower())
             {
                 case string h when (h == "bh"):
-                    firetype = 0;
+                    fclass = 1;
                     break;
                 case string h when (h == "uc"):
-                    firetype = 1;
+                    fclass = 0;
                     break;
                 case string h when (h == "to"):
-                    firetype = 2;
+                    fclass = -1;
                     break;
             }
+            
+            int fire_type = 0;
 
             payload.data = new double[,] {
                 {
-                        size,
+                        fire_type, // 'Surface': -1, 'Ground': 0, 'Crown': 1                            // AAAAAAAAAAAAAA
+                        weather, //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 // AAAAAAAAAAAAAA
                         hectares,
-                        firetype,
-                        weather,
+                        fclass, // 'to': -1, 'uc': 0, 'bh': 1 
                         }
                 };
 
@@ -286,9 +258,9 @@ namespace WebApplication3.Controllers
                 if (hectares != 0)
                 {
                     if (hectares > 1)
-                        time = Math.Round(time, 0) * Math.Log10(hectares);
+                        time = Math.Round(Math.Round(time, 0) * Math.Log10(hectares),0);
                     else
-                        time = Math.Round(time, 0) * hectares;
+                        time = Math.Round(Math.Round(time, 0) * hectares,0);
                     return time.ToString();
                 }
                 else
@@ -301,22 +273,7 @@ namespace WebApplication3.Controllers
             }
             return null;
         }
-        
-        public string get_time2(double hectares, string type) // ГАРБЕДЖ
-        {
-            var rnd = new Random(DateTime.Now.Millisecond);
-            int ticks = rnd.Next(0, 10);
-            var time = ticks.ToString();
-            return time;
-        }
 
-        public string fixedFunc2(double prov, double hectares, ref double variable, double water, ref double time) // ГАРБЕДЖ
-        {
-            var rnd = new Random(DateTime.Now.Millisecond);
-            int ticks = rnd.Next(0, 10000);
-            var dollar = ticks.ToString();
-            return dollar;
-        }
     }
 
 
