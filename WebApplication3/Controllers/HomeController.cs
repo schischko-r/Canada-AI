@@ -201,7 +201,7 @@ namespace WebApplication3.Controllers
             return null;
         }
 
-        public string get_time(double hectares, string type)
+        public string get_time(double hectares, string type, double weather) // ИМПЛЕМЕНТИТЬ ПОГОДУ
         {
             string scoringUri = "http://e15cd904-a489-4c0d-b832-423f2e28417a.westeurope.azurecontainer.io/score";
             string authKey = "";
@@ -260,6 +260,7 @@ namespace WebApplication3.Controllers
                         size,
                         hectares,
                         firetype,
+                        weather,
                         }
                 };
 
