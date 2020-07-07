@@ -755,6 +755,7 @@
                                     type: properties.Type,
                                     town: percentage[0],
                                     water: percentage[2],
+                                    flayer: properties.Layer,
                                     weather: percentage[3],
                                 }),
                                 success: function (result) {
@@ -796,6 +797,13 @@
                                     }
                                     else {
                                         citySTR += 'Текущий статус: <font color = "#008000";>тушится</font>'
+                                    }
+
+                                    if (properties.Layer == 'Crown') {
+                                        citySTR += '<br>Тип пожара: <font color = "#ff0000";>верховой</font>'
+                                    }
+                                    else {
+                                        citySTR += '<br>Тип пожара: <font color = "#008000";>низовой</font>'
                                     }
                                     document.getElementById("content").innerHTML = citySTR;
 

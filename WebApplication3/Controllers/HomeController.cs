@@ -24,7 +24,7 @@ namespace WebApplication3.Controllers
         }
 
         //    [HttpPost]
-        public string Button_click(object sender, EventArgs e, string province, double hectares, string type, double town, double water, int weather)
+        public string Button_click(object sender, EventArgs e, string province, double hectares, string type, double town, double water, string flayer, int weather)
         {
             string a = "";
             double b = 2;
@@ -33,7 +33,7 @@ namespace WebApplication3.Controllers
             Gogo go = new Gogo();
 
             double prov = go.PROV[province];
-            go.StartGet(prov, hectares, type, town, water, weather, ref a, ref b, ref t);
+            go.StartGet(prov, hectares, type, town, water, flayer, weather, ref a, ref b, ref t);
 
             string result = a.ToString() + ";" + b.ToString() + ";" + t.ToString();
             return result;
@@ -106,11 +106,11 @@ namespace WebApplication3.Controllers
             MyDict.initSOFTWOOD(ref SOFTWOOD);
         }
 
-        public string StartGet(double prov, double hectares, string type, double town, double water, int weather, ref string fix, ref double variable, ref double time) ///main
+        public string StartGet(double prov, double hectares, string type, double town, double water, string flayer, int weather, ref string fix, ref double variable, ref double time) ///main
         {
             double forest = 100 - town - water;
             variable = variableFunc(prov, hectares, town, forest, water);
-            time = Convert.ToSingle(get_time(hectares, type, weather));
+            time = Convert.ToSingle(get_time(hectares, type, flayer, weather));
             fix = fixedFunc(prov, hectares, ref variable, water, ref time);
 
             double fixedCost = Convert.ToSingle(fix);
@@ -202,7 +202,7 @@ namespace WebApplication3.Controllers
             return null;
         }
 
-        public string get_time(double hectares, string ftype, double weather) // ИМПЛЕМЕНТИТЬ ПОГОДУ
+        public string get_time(double hectares, string ftype, string flayer, double weather) // ИМПЛЕМЕНТИТЬ ПОГОДУ
         {
             string scoringUri = "http://4a0ece96-bb3f-47fe-8eba-ec81778bca6b.westeurope.azurecontainer.io/score";
             string authKey = "";
@@ -224,13 +224,28 @@ namespace WebApplication3.Controllers
                     fclass = -1;
                     break;
             }
-            
+
             int fire_type = 0;
+
+            switch (flayer.ToLower())
+            {
+                case string h when (h == "surface"):
+                    fire_type = -1;
+                    break;
+                case string h when (h == "ground"):
+                    fire_type = 0;
+                    break;
+                case string h when (h == "crown"):
+                    fire_type = 1;
+                    break;
+            }
+
+            
 
             payload.data = new double[,] {
                 {
                         fire_type, // 'Surface': -1, 'Ground': 0, 'Crown': 1                            // AAAAAAAAAAAAAA
-                        weather, //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 // AAAAAAAAAAAAAA
+                        weather, //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
                         hectares,
                         fclass, // 'to': -1, 'uc': 0, 'bh': 1 
                         }
@@ -255,6 +270,7 @@ namespace WebApplication3.Controllers
                 resStr = cutStr(response.Content.ReadAsStringAsync().Result);
 
                 double time = double.Parse(resStr);
+                time += 1;
                 if (hectares != 0)
                 {
                     if (hectares > 1)
