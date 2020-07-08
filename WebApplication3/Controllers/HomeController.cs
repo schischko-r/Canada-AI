@@ -133,7 +133,7 @@ namespace WebApplication3.Controllers
             if (variable <= 10)
                 return 0;
             return variable;
-        }
+        } 
 
         public string cutStr(string str)
         {

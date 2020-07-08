@@ -11,22 +11,20 @@
 
     <style>
         .container {
-            
             width: 80%;
         }
+
         .customInfobox {
+            padding: 5%;
+            background-color: #222831;
             width: 220px;
-            height: 120px;
+            height: 140px;
             text-align: center;
+            vertical-align: middle;
+            border-color: #eeeeee;
         }
 
-        .Wildfire {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-bottom: 7px;
-        }
-
+  
         .Alert {
             font-size: 14px;
             font-weight: bold;
@@ -37,43 +35,33 @@
 
         body {
             font-family: "Century Gothic", sans-serif;
-            background: url("images/fire.jpg") no-repeat center center fixed;
-            background-size: cover;
+            background-color: #222831;
+        }
+
+        .navbar {
+            font-family: "Century Gothic", sans-serif;
+            background-color: #393e46;
+            
+        }
+        .navbar-inverse .navbar-brand {
+            color: #d65a31;
+        }
+        .navbar-inverse .navbar-nav > li > a {
+            color: #eeeeee;
         }
 
         .content {
-            background-color: #ffffff;
+            
+            background-color: #393e46;
+            color: #eeeeee;
             width: 95%;
             font-size: 16px;
             padding: 20px;
-            border: 3px solid black;
+            border: 3px solid #eeeeee;
             margin: 0 auto;
             text-align: center;
             min-height: 400px;
         }
-
-        .glavn {
-            background-color: #000000;
-            font-size: 20px;
-            padding: 20px;
-        }
-
-            .glavn li {
-                text-transform: uppercase;
-                font-weight: bold;
-                display: inline-block;
-                padding-left: 80px;
-            }
-
-
-                .glavn li a {
-                    text-decoration: none;
-                    color: white;
-                }
-
-                    .glavn li a:hover {
-                        color: firebrick;
-                    }
 
         footer {
             color: white;
@@ -133,11 +121,13 @@
             font-size: 25px;
             font-weight: bold;
         }
+        
         #left-column {
             float: left;
             width: 70%;
             overflow: auto;
             max-height: 800px;
+            
         }
 
         #right-column {
@@ -153,8 +143,21 @@
         }
         #footer {
             clear: both;
+            
         }
-
+        hr {
+            border: none;
+            color: #d65a31;
+            background-color: #d65a31;
+            height: 2px;
+        }
+        footer {
+            color: #eeeeee;
+        }
+        b {
+            color: #d65a31;
+        }
+        
     </style>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -175,7 +178,7 @@
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
         //var stateBoundaries = 'canada_provinces.geojson';
         var stateBoundaries = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/canada_provinces.geojson';
-        var simplePopupTemplate = '<div class="customInfobox"><div class="Wildfire"><b>Всего:</b> {Total}$</div><b>Штат:</b> {State}<br><b>Площадь пожара:</b> <font color = "{timeColor}";>{Size}</font> hectares<br><b>Постоянные затраты:</b> {Fixed}$<br><b>Внештатные затраты:</b> {Variable}$<br></div>';
+        var simplePopupTemplate = '<div class="customInfobox"><b><font color="#eeeeee" size="4">Всего: {Total}$</font></b><br><b>Штат:</b> <font color="#eeeeee">{State}</font><br><b>Площадь пожара:</b> <font color={timeColor}>{Size} hectares</font><br><b>Постоянные затраты:</b> <font color="#eeeeee">{Fixed}$</font><br><b>Внештатные затраты:</b> <font color="#eeeeee">{Variable}$</font><br></div>';
         //var geojsonFeed = 'SamplePoiDataSet.json';
         var geojsonFeed = 'https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/Views/Home/fires.json';
 
@@ -184,95 +187,67 @@
             //Initialize a map instance.
             map = new atlas.Map('myMap', {
                 center: [-95, 58],
+                style: 'satellite_road_labels',
                 zoom: 3,
                 view: 'Auto',
-                //Add your Azure Maps key to the map SDK. Get an Azure Maps key at https://azure.com/maps. NOTE: The primary key should be used as the key.
+
                 authOptions: {
                     authType: 'subscriptionKey',
                     subscriptionKey: azureMapsSubscriptionKey
                 }
             });
 
-            //Wait until the map resources are ready.
             map.events.add('ready', function () {
-                //PopUps
-                //Create a reusable popup.
                 popup = new atlas.Popup();
                 cluster: false,
-
-                    //Create a data source and add it to the map.
                     datasource = new atlas.source.DataSource(null, {
                     });
                 map.sources.add(datasource);
 
                 var pointLayer = new atlas.layer.BubbleLayer(datasource, null, {
                     radius: 8,
-                    color: '#4B0082',
-                    strokeWidth: 2,
-                    strokeColor: "#DAA520",
+                    color: '#d65a31',
+                    strokeWidth: 1.5,
+                    strokeColor: "#eeeeee",
                     cluster: false,
-                    filter: ['!', ['has', 'point_count']] //Filter out cluste#ff0000 points from this layer.
+                    filter: ['!', ['has', 'point_count']] //Filter out cluste#f95959 points from this layer.
                 });
 
                 map.events.add('click', pointLayer, pointClicked);
 
-                //Add the clusterBubbleLayer and two additional layers to the map.
                 map.layers.add(pointLayer);
 
-                //Import the GeoJSON data into the data source.
                 datasource.importDataFromUrl(geojsonFeed);
-                //PopUps
-                //Add a style control to the map.
+                
                 map.controls.add(new atlas.control.StyleControl({
-                    //Optionally specify which map styles you want to appear in the picker.
-                    //All styles available with the S0 license tier appear by default in the control.
-                    //If using a S1 tier license, you can use the mapStyles option to add premium styles such as 'satellite' and 'satellite_road_labels' to the control.
-                    //To add all available styles, you can use the 'all' keyword.
-                    mapStyles: 'all'
 
-                    //Alternatively, specify an array of all the map styles you would like displayed in the style picker.
-                    //mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels', 'high_contrast_dark']
+                    //mapStyles: 'all'
+
+                    mapStyles: ['night', 'satellite_road_labels']
                 }), {
                     position: 'bottom-left'
                 });
-                //State
-                //Create a data source and add it to the map.
+
                 datasource = new atlas.source.DataSource();
                 map.sources.add(datasource);
 
-                //Load the US state boundary data.
                 datasource.importDataFromUrl(stateBoundaries);
 
-                //Add a layer for rendering filled polygon area.
                 var polygonLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                    fillColor: 'rgba(0, 157, 255, 0.2)'
+                    fillColor: 'rgba(57, 62, 70, 1)'
                 });
 
-                //Add a layer for rendering a different color polygon for representing a hover state.
-                var polygonHoverLayer = new atlas.layer.PolygonLayer(datasource, null, {
-                    fillColor: 'rgba(150, 50, 255, 0.2)',
 
-                    //Only polygons with a "GEO_ID" property with a value of '' will be rende#ff0000.
-                    filter: ['==', ['get', 'GEO_ID'], '']
-                });
 
-                //Add a layer for rendering the styled outline of the polygon data.
                 var lineLayer = new atlas.layer.LineLayer(datasource, null, {
-                    strokeColor: 'white',
+                    strokeColor: 'rgba(214, 90, 49, 1)',
                     strokeWidth: 1
                 });
 
-                //Add the layers to be map, but render it below the labels.
-                map.layers.add([polygonLayer, polygonHoverLayer, lineLayer], 'labels');
-
-                // When the user moves their mouse over the polygonLayer, we'll update the filter in
-                // the polygonHoverLayer to only show the matching state, thus creating a hover effect.
-                //State
-                //PopUps2
+                map.layers.add([polygonLayer, lineLayer], 'labels');
 
                 var SIZE = Math.pow(10, 5) * 100
                 
-                var welcome = '<b> Приветствуем!</b><br /><br />На данной модели < b > постоянными расходами</b > будут считаться расходы на топливо для специализированного транспорта, зарплаты работникам службы пожарной охраны, и прочие штатные расходы. < br /> <br /><b>Внештатные расходы</b> - расходы на покрытие потенциального ущерба, который может нанести пожар, если его вовремя не потушить.При расчете учитываются окружающие очаг пожара особенности рельефа, города, водоемы и национальные парки.Также модель предполагает опасность пожара для видов флоры и фауны в данном регионе, которые уже находятся под угрозой вымирания. < br /> <br />При расчете < b > времени</b >, которое пойдет на тушение пожара учитываются такие критерии как текущая погода, размер пожара(в гектарах), тип пожара(верховой, низовой) и его текущий статус(локализован, под контролем и т.д).< br /> <br /> <font color="#008000" ;> <b>Выберите точку на карте! </b></font >'
 
                 function pointClicked(e) {
 
@@ -281,41 +256,30 @@
                     var cities = []
                     var buildings = []
                     var citySTR = ""
-                    var loadingMsb = '<b>Загрузка...</b>'
-                    document.getElementById("content").innerHTML = loadingMsb;
+                    var loadingMsg = '<b><font color="#f95959" size="5">Загрузка...</font></b>'
+                    document.getElementById("content").innerHTML = loadingMsg;
                    
                     if (e.shapes && e.shapes.length > 0) {
                         var content, coordinate;
 
-                        //Check to see if the first value in the shapes array is a Point Shape.
                         if (e.shapes[0] instanceof atlas.Shape && e.shapes[0].getType() === 'Point') {
                             var properties = e.shapes[0].getProperties();
-                            content = '<div class="customInfobox"><div class="Wildfire"><b>Загрузка...</b></div></div>';
+                            content = '<div class="customInfobox">' + loadingMsg + '</div>';
                             coordinate = e.shapes[0].getCoordinates();
                         } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
-                            //Check to see if the feature is a cluster.
-                            if (e.shapes[0].properties.cluster) {
-                                content = '<div style="padding:10px;">Cluster of ' + e.shapes[0].properties.point_count + ' symbols</div>';
-                            } else {
-                                //Feature is likely from a VectorTileSource.
-                                content = '<div class="customInfobox"><div class="Wildfire"><b>Загрузка...</b></div></div>';
-                            }
+                            
+                            content = '<div class="customInfobox">' + loadingMsg +'</div>';
 
                             coordinate = e.shapes[0].geometry.coordinates;
                         }
 
                         if (content && coordinate) {
-                            //Populate the popupTemplate with data from the clicked point feature.
                             popup.setOptions({
-                                //Update the content of the popup.
                                 content: content,
-
-                                //Update the position of the popup with the symbols coordinate.
                                 position: coordinate
                             });
 
-                            //Open the popup.
                             popup.open(map);
 
                         }
@@ -733,16 +697,16 @@
                                             citySTR += 'Название: ' + cities[step][1] + '. Тип: ' + cities[step][0] + '. Расстояние: ' + Math.round((cities[step][2]/1000) * 100) / 100 + ' km<br>';
 
                                         }
-                                        citySTR = "<font color = '#ff0000';><b>Города которые могут быть затронуты: <br></font></b>" + citySTR + '<br>'
+                                        citySTR = "<font color = '#f95959';><b>Города которые могут быть затронуты: <br></font></b>" + citySTR + '<br>'
                                         
                                     }
                                     else {
                                         if (buildings.length != 0) {
-                                            citySTR = "<b><font color = '#ff0000';>При пожаре могут быть задеты здания!<br></font></b><br>";
+                                            citySTR = "<b><font color = '#f95959';>При пожаре могут быть задеты здания!<br></font></b><br>";
                                         }
                                     }
                                     if (parkarr.length != 0) {
-                                        citySTR += "<b><font color = '#ff0000';>Национальные парки которые могут быть затронуты: <br></font></b>"
+                                        citySTR += "<b><font color = '#f95959';>Национальные парки которые могут быть затронуты: <br></font></b>"
                                         for (step = 0; step < parkarr.length; step++) {
                                             citySTR += 'Название: ' + parkarr[step][0] + '. Расстояние: ' + Math.round((parkarr[step][1] / 1000) * 100) / 100 + ' km<br>';
                                         }
@@ -780,11 +744,11 @@
                                         
                                     }
                                     if (waterarr.length != 0) {
-                                        citySTR += "<br><font color = '#008000';>Воды для тушения будет достаточно!<br></font>"
+                                        citySTR += "<br><font color = '#e3e3e3';>Воды для тушения будет достаточно!<br></font>"
                                     }
 
                                     else {
-                                        citySTR += "<br><font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
+                                        citySTR += "<br><font color = '#f95959';>Воды для тушения может быть недостаточно!<br></font>"
                                     }
 
                                     $.ajax({
@@ -875,18 +839,14 @@
                                     var days = parseInt(nameList[2])
                                     var total = fix + variable
 
-                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#008000').replace(/{Days}/g, days);
+                                    content = simplePopupTemplate.replace(/{Total}/g, total).replace(/{State}/g, state).replace(/{Size}/g, properties.Size).replace(/{Variable}/g, variable).replace(/{Fixed}/g, fix).replace(/{Alert}/g, 'Предупреждений нет!').replace(/{Color}/g, '#e3e3e3').replace(/{Days}/g, days);
 
-                                    if (days > 14) {
-                                        content = content.replace(/{timeColor}/g, '#ff0000')
-                                    }
-
-                                    else if (days < 7) {
-                                        content = content.replace(/{timeColor}/g, '#008000')
+                                    if (days > 7) {
+                                        content = content.replace(/{timeColor}/g, '#f95959')
                                     }
 
                                     else {
-                                        content = content.replace(/{timeColor}/g, '#000000')
+                                        content = content.replace(/{timeColor}/g, '#eeeeee')
                                     }
 
                                     
@@ -902,39 +862,39 @@
                                     
 
                                     if (properties.Layer == 'Crown') {
-                                        citySTR += '<br>Тип пожара: <font color = "#ff0000";>верховой</font>'
+                                        citySTR += '<br>Тип пожара: <font color = "#f95959";>верховой</font>'
                                     }
                                     else {
-                                        citySTR += '<br>Тип пожара: <font color = "#008000";>низовой</font>'
+                                        citySTR += '<br>Тип пожара: <font color = "#e3e3e3";>низовой</font>'
                                     }
                                     //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
                                     switch (percentage[3]) {
                                         case -1:
-                                            citySTR += '<br>Текущая погода: <font color = "#ff0000";>сухо</font>'
+                                            citySTR += '<br>Текущая погода: <font color = "#f95959";>сухо</font>'
                                             break;
                                         case 1:
-                                            citySTR += '<br>Текущая погода: <font color = "#008000";>высокая влажность</font>'
+                                            citySTR += '<br>Текущая погода: <font color = "#e3e3e3";>высокая влажность</font>'
                                             break;
                                         case 0:
-                                            citySTR += '<br>Текущая погода: <font color = "#ff0000";>ясно</font>'
+                                            citySTR += '<br>Текущая погода: <font color = "#f95959";>ясно</font>'
                                             break;
                                         case 2:
-                                            citySTR += '<br>Текущая погода: <font color = "#008000";>облачно</font>'
+                                            citySTR += '<br>Текущая погода: <font color = "#e3e3e3";>облачно</font>'
                                             break;
                                         case 3:
-                                            citySTR += '<br>Текущая погода: <font color = "#008000";>дождь</font>'
+                                            citySTR += '<br>Текущая погода: <font color = "#e3e3e3";>дождь</font>'
                                             break;
                                         default:
                                     }
 
                                     if (properties.Type == 'UC') {
-                                        citySTR += '<br>Текущий статус: <font color = "#008000";>очаг локализирован</font>'
+                                        citySTR += '<br>Текущий статус: <font color = "#e3e3e3";>очаг локализирован</font>'
                                     }
                                     else if (properties.Type == 'BH') {
-                                        citySTR += '<br>Текущий статус: <font color = "#ff0000";>сдерживается</font>'
+                                        citySTR += '<br>Текущий статус: <font color = "#f95959";>сдерживается</font>'
                                     }
                                     else {
-                                        citySTR += '<br>Текущий статус: <font color = "#008000";>тушится</font>'
+                                        citySTR += '<br>Текущий статус: <font color = "#e3e3e3";>тушится</font>'
                                     }
 
 
@@ -969,7 +929,7 @@
                 если его вовремя не потушить. При расчете учитываются окружающие очаг пожара особенности рельефа, города, водоемы и национальные парки. Также модель предполагает опасность пожара для видов флоры и фауны в данном регионе, которые
                 уже находятся под угрозой вымирания. <br /><br />При расчете <b>времени</b>, которое пойдет на тушение пожара учитываются такие критерии как текущая погода, размер пожара (в гектарах), тип пожара (верховой, низовой)
                 и его текущий статус (локализован, под контролем и т.д).<br /><br />
-                <font color="#008000" ;><b>Выберите точку на карте! </b></font>
+                <b>Выберите точку на карте! </b>
             </p>
         </div>
         
@@ -977,10 +937,8 @@
     <div id="footer">
         <br>
         
-        <hr>
-        <footer>
-            &copy;Vacanda
-        </footer>
+            <hr>
+            <footer>&copy;Vacanda</footer>
     </div>
 </body>
 </html>
