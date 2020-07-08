@@ -735,7 +735,57 @@
                                         success: function (result) {
                                             
                                             var json = JSON.parse(result)
-                                            res[3] = parseInt(json.main.humidity / 20)  - 1
+                                            weatherClass = json.weather.main
+                                            switch (weatherClass) {
+                                                //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
+                                                case 'Thunderstorm':
+                                                    res[3] = 3
+                                                    break;
+                                                case 'Drizzle': 
+                                                    res[3] =1
+                                                    break;
+                                                case 'Rain':
+                                                    res[3] =3
+                                                    break;
+                                                case 'Snow':
+                                                    res[3] =1
+                                                    break;
+                                                case 'Mist':
+                                                    res[3] =1
+                                                    break;
+                                                case 'Smoke':
+                                                    res[3] = -1
+                                                    break;
+                                                case 'Haze':
+                                                    res[3] =1
+                                                    break;
+                                                case 'Dust':
+                                                    res[3] =-1
+                                                    break;
+                                                case 'Fog':
+                                                    res[3] =1
+                                                    break;
+                                                case 'Sand': 
+                                                    res[3] =-1
+                                                    break;
+                                                case 'Ash':
+                                                    res[3] = -1
+                                                    break;
+                                                case 'Squall':
+                                                    res[3] =2-1
+                                                    break;
+                                                case 'Tornado':
+                                                    res[3] =-1
+                                                    break;
+                                                case 'Clear':
+                                                    res[3] =0
+                                                    break;
+                                                case 'Clouds':
+                                                    res[3] =2
+                                                    break;
+                                                default:
+                                                    res[3] =0
+                                            }
                                             mainCalc(PROV, res)
                                         }
                                     })
@@ -789,15 +839,7 @@
                                     });
 
                                     citySTR += "Пожар будет потушен через: " + days + ' дней. <br>'
-                                    if (properties.Type == 'UC') {
-                                        citySTR += 'Текущий статус: <font color = "#008000";>очаг локализирован</font>'
-                                    }
-                                    else if (properties.Type == 'BH') {
-                                        citySTR += 'Текущий статус: <font color = "#ff0000";>сдерживается</font>'
-                                    }
-                                    else {
-                                        citySTR += 'Текущий статус: <font color = "#008000";>тушится</font>'
-                                    }
+                                    
 
                                     if (properties.Layer == 'Crown') {
                                         citySTR += '<br>Тип пожара: <font color = "#ff0000";>верховой</font>'
@@ -805,6 +847,36 @@
                                     else {
                                         citySTR += '<br>Тип пожара: <font color = "#008000";>низовой</font>'
                                     }
+                                    //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
+                                    switch (percentage[3]) {
+                                        case -1:
+                                            citySTR += '<br>Текущая погода: <font color = "#ff0000";>сухо</font>'
+                                            break;
+                                        case 1:
+                                            citySTR += '<br>Текущая погода: <font color = "#008000";>высокая влажность</font>'
+                                            break;
+                                        case 0:
+                                            citySTR += '<br>Текущая погода: <font color = "#ff0000";>ясно</font>'
+                                            break;
+                                        case 2:
+                                            citySTR += '<br>Текущая погода: <font color = "#008000";>облачно</font>'
+                                            break;
+                                        case 3:
+                                            citySTR += '<br>Текущая погода: <font color = "#008000";>дождь</font>'
+                                            break;
+                                        default:
+                                    }
+
+                                    if (properties.Type == 'UC') {
+                                        citySTR += '<br>Текущий статус: <font color = "#008000";>очаг локализирован</font>'
+                                    }
+                                    else if (properties.Type == 'BH') {
+                                        citySTR += '<br>Текущий статус: <font color = "#ff0000";>сдерживается</font>'
+                                    }
+                                    else {
+                                        citySTR += '<br>Текущий статус: <font color = "#008000";>тушится</font>'
+                                    }
+
                                     document.getElementById("content").innerHTML = citySTR;
 
                                 }
