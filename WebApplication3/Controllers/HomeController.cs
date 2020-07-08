@@ -269,18 +269,22 @@ namespace WebApplication3.Controllers
                 //      Console.WriteLine(response.Content.ReadAsStringAsync().Result);
                 resStr = cutStr(response.Content.ReadAsStringAsync().Result);
 
-                double time = double.Parse(resStr);
+                double time = Math.Abs(double.Parse(resStr));
                 time += 1;
-                if (hectares != 0)
-                {
-                    if (hectares > 1)
-                        time = Math.Round(Math.Round(time, 0) * Math.Log10(hectares),0);
+                if (time >= 2){
+                    if (hectares != 0)
+                    {
+                        if (hectares > 1)
+                            time = Math.Round(Math.Round(time, 0) * Math.Log10(hectares), 0);
+                        else
+                            time = Math.Round(Math.Round(time, 0) * hectares, 0);
+                        return time.ToString();
+                    }
                     else
-                        time = Math.Round(Math.Round(time, 0) * hectares,0);
-                    return time.ToString();
+                        return "0";
                 }
                 else
-                    return "0";
+                    return time.ToString();
                 //   return response.Content.ReadAsStringAsync().Result;
             }
             catch (Exception e)
