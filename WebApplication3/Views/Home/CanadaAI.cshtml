@@ -10,6 +10,10 @@
     <meta name="author" content="Microsoft Azure Maps" />
 
     <style>
+        .container {
+            
+            width: 80%;
+        }
         .customInfobox {
             width: 220px;
             height: 120px;
@@ -42,10 +46,10 @@
             width: 95%;
             font-size: 16px;
             padding: 20px;
-
             border: 3px solid black;
             margin: 0 auto;
             text-align: center;
+            min-height: 400px;
         }
 
         .glavn {
@@ -133,14 +137,19 @@
             float: left;
             width: 70%;
             overflow: auto;
-            max-height: 600px;
+            max-height: 800px;
         }
 
         #right-column {
             float: right;
             width: 30%;
             overflow: auto;
-            max-height: 600px;
+            max-height: 800px;
+            min-height: 800px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #footer {
             clear: both;
@@ -263,6 +272,7 @@
 
                 var SIZE = Math.pow(10, 5) * 100
                 
+                var welcome = '<b> Приветствуем!</b><br /><br />На данной модели < b > постоянными расходами</b > будут считаться расходы на топливо для специализированного транспорта, зарплаты работникам службы пожарной охраны, и прочие штатные расходы. < br /> <br /><b>Внештатные расходы</b> - расходы на покрытие потенциального ущерба, который может нанести пожар, если его вовремя не потушить.При расчете учитываются окружающие очаг пожара особенности рельефа, города, водоемы и национальные парки.Также модель предполагает опасность пожара для видов флоры и фауны в данном регионе, которые уже находятся под угрозой вымирания. < br /> <br />При расчете < b > времени</b >, которое пойдет на тушение пожара учитываются такие критерии как текущая погода, размер пожара(в гектарах), тип пожара(верховой, низовой) и его текущий статус(локализован, под контролем и т.д).< br /> <br /> <font color="#008000" ;> <b>Выберите точку на карте! </b></font >'
 
                 function pointClicked(e) {
 
@@ -271,8 +281,9 @@
                     var cities = []
                     var buildings = []
                     var citySTR = ""
-
-                    //Make sure the event occur#ff0000 on a point feature.
+                    var loadingMsb = '<b>Загрузка...</b>'
+                    document.getElementById("content").innerHTML = loadingMsb;
+                   
                     if (e.shapes && e.shapes.length > 0) {
                         var content, coordinate;
 
@@ -926,6 +937,7 @@
                                         citySTR += '<br>Текущий статус: <font color = "#008000";>тушится</font>'
                                     }
 
+
                                     document.getElementById("content").innerHTML = citySTR;
 
                                 }
@@ -943,18 +955,28 @@
 </head>
 
 <body onload="GetMap()">
+    <br>
     <div id="left-column">
-        <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+        <div id="myMap" style="position:relative;width:100%;min-width:290px;height:800px;"></div>
     </div>
     <div id="right-column">
-        <div class="content">
+        <div class="content" style="display: flex; justify-content: center; align-items: center;">
             <p id="content">
-                Выберите точку на карте!
+                <b> Приветствуем!</b><br /><br />
+
+                На данной модели <b>постоянными расходами</b> будут считаться расходы на топливо для специализированного транспорта, зарплаты работникам службы пожарной охраны, и прочие штатные расходы. <br />
+                <br /><b>Внештатные расходы</b> - расходы на покрытие потенциального ущерба, который может нанести пожар,
+                если его вовремя не потушить. При расчете учитываются окружающие очаг пожара особенности рельефа, города, водоемы и национальные парки. Также модель предполагает опасность пожара для видов флоры и фауны в данном регионе, которые
+                уже находятся под угрозой вымирания. <br /><br />При расчете <b>времени</b>, которое пойдет на тушение пожара учитываются такие критерии как текущая погода, размер пожара (в гектарах), тип пожара (верховой, низовой)
+                и его текущий статус (локализован, под контролем и т.д).<br /><br />
+                <font color="#008000" ;><b>Выберите точку на карте! </b></font>
             </p>
         </div>
+        
     </div>
     <div id="footer">
         <br>
+        
         <hr>
         <footer>
             &copy;Vacanda
