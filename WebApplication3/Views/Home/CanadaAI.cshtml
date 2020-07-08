@@ -39,7 +39,7 @@
 
         .content {
             background-color: #ffffff;
-            width: 50%;
+            width: 60%;
             font-size: 16px;
             padding: 20px;
 
@@ -716,15 +716,47 @@
                                     if (parkarr.length != 0) {
                                         citySTR += "<b><font color = '#ff0000';>Национальные парки которые могут быть затронуты: <br></font></b>"
                                         for (step = 0; step < parkarr.length; step++) {
-                                            citySTR += 'Название: ' + parkarr[step][0] + '. Расстояние: ' + Math.round((parkarr[step][1] / 1000) * 100) / 100 + ' km<br><br>';
+                                            citySTR += 'Название: ' + parkarr[step][0] + '. Расстояние: ' + Math.round((parkarr[step][1] / 1000) * 100) / 100 + ' km<br>';
                                         }
+                                        var forest = ['Hydrophyllum canadense - Гидpoфиллyм канадский', 'Tanacetum huronense - Пижма гуронская', 'Tsuga canadensis - Тсуга канадская'];
+                                        var animals = ['Ursus americanus carlottae - Барибал', 'Enhydra lutris - Калан', 'Falco peregrinus - Сапсан', 'Tympanuchus cupido - Большой степной тетерев', 'Dermochelys coriacea - Кожистая черепаха','Rangifer tarandus - Северный олень']
+
+                                        var f_amount = Math.round(Math.random() * (forest.length - 2) + 1);
+                                        var a_amount = Math.round(Math.random() * (animals.length - 2) + 1);
+
+                                        var ind = 0
+                                        var used = [];
+                                        citySTR += "<br><b>Растения, которым угрожает пожар:<br></b>"
+                                        for (var i = 0; i < f_amount; i++) {
+                                            ind = Math.round(Math.random() * (forest.length - 2) + 1);
+                                            while (used.includes(ind)){
+                                                ind = Math.round(Math.random() * (forest.length - 2) + 1);
+                                            }
+                                            citySTR += forest[ind] + "<br>"
+                                            used.push(ind)
+                                            
+                                        }
+
+                                        var ind = 0
+                                        var used = [];
+                                        citySTR += "<br><b>Животные, которым угрожает пожар:<br></b>"
+                                        for (var i = 0; i < a_amount; i++) {
+                                            ind = Math.round(Math.random() * (animals.length - 2) + 1);
+                                            while (used.includes(ind)) {
+                                                ind = Math.round(Math.random() * (animals.length - 2) + 1);
+                                            }
+                                            citySTR += animals[ind] + "<br>"
+                                            used.push(ind)
+
+                                        }
+                                        
                                     }
                                     if (waterarr.length != 0) {
-                                        citySTR += "<font color = '#008000';>Воды для тушения будет достаточно!<br></font>"
+                                        citySTR += "<br><font color = '#008000';>Воды для тушения будет достаточно!<br></font>"
                                     }
 
                                     else {
-                                        citySTR += "<font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
+                                        citySTR += "<br><font color = '#ff0000';>Воды для тушения может быть недостаточно!<br></font>"
                                     }
 
                                     $.ajax({
