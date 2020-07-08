@@ -39,7 +39,7 @@
 
         .content {
             background-color: #ffffff;
-            width: 60%;
+            width: 95%;
             font-size: 16px;
             padding: 20px;
 
@@ -129,6 +129,23 @@
             font-size: 25px;
             font-weight: bold;
         }
+        #left-column {
+            float: left;
+            width: 70%;
+            overflow: auto;
+            max-height: 600px;
+        }
+
+        #right-column {
+            float: right;
+            width: 30%;
+            overflow: auto;
+            max-height: 600px;
+        }
+        #footer {
+            clear: both;
+        }
+
     </style>
 
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
@@ -926,15 +943,22 @@
 </head>
 
 <body onload="GetMap()">
-    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div><br>
+    <div id="left-column">
+        <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+    </div>
+    <div id="right-column">
         <div class="content">
             <p id="content">
                 Выберите точку на карте!
             </p>
         </div>
-    <hr>
-    <footer>
-        &copy;Vacanda
-    </footer>
+    </div>
+    <div id="footer">
+        <br>
+        <hr>
+        <footer>
+            &copy;Vacanda
+        </footer>
+    </div>
 </body>
 </html>
