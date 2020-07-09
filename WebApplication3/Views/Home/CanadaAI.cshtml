@@ -9,8 +9,8 @@
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK,  navigation controls, map style, style picker, map type, satellite, aerial, imagery" />
     <meta name="author" content="Microsoft Azure Maps" />
 
-    
 
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/wwwroot/css/style.css" type="text/css" />
     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
@@ -18,12 +18,13 @@
     <!-- Add references to the Azure Maps Map Drawing Tools JavaScript and CSS files. -->
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/schischko-r/Canada-AI/master/WebApplication3/wwwroot/css/style.css" type="text/css" />
     <script src="https://atlas.microsoft.com/sdk/javascript/drawing/0/atlas-drawing.min.js"></script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
- 
+
     <script type='text/javascript'>
         var map, datasource;
         var azureMapsSubscriptionKey = 'p3R9NNrAlX8xyDjtv2IeqbBMUZ8SRtbg4N-BtDXfWnc';
@@ -69,7 +70,7 @@
                 map.layers.add(pointLayer);
 
                 datasource.importDataFromUrl(geojsonFeed);
-                
+
                 map.controls.add(new atlas.control.StyleControl({
 
                     //mapStyles: 'all'
@@ -98,7 +99,7 @@
                 map.layers.add([polygonLayer, lineLayer], 'labels');
 
                 var SIZE = Math.pow(10, 5) * 100
-                
+
 
                 function pointClicked(e) {
 
@@ -109,7 +110,7 @@
                     var citySTR = ""
                     var loadingMsg = '<b><font color="#f95959" size="5">Загрузка...</font></b>'
                     document.getElementById("content").innerHTML = loadingMsg;
-                   
+
                     if (e.shapes && e.shapes.length > 0) {
                         var content, coordinate;
 
@@ -119,7 +120,7 @@
                             coordinate = e.shapes[0].getCoordinates();
                         } else if (e.shapes[0].type === 'Feature' && e.shapes[0].geometry.type === 'Point') {
 
-                            
+
                             content = '<div class="customInfobox">' + loadingMsg +'</div>';
 
                             coordinate = e.shapes[0].geometry.coordinates;
@@ -165,7 +166,7 @@
 
                                     var json = JSON.parse(result)
 
-                                    
+
 
                                     var infr = 0, water = 0, forest = 0
                                     for (step = 0; step < json.features.length; step++) {
@@ -540,16 +541,16 @@
                                     res = [infr, forest, water]
                                     sum = res.reduce((a, b) => a + b, 0);
                                     res = [Math.round(infr * 100 / sum), Math.round(forest * 100 / sum), Math.round(water * 100 / sum)]
-                                    
 
-                                    
+
+
                                     if (cities.length != 0) {
                                         for (step = 0; step < cities.length; step++) {
                                             citySTR += 'Название: ' + cities[step][1] + '. Тип: ' + cities[step][0] + '. Расстояние: ' + Math.round((cities[step][2]/1000) * 100) / 100 + ' km<br>';
 
                                         }
                                         citySTR = "<font color = '#f95959';><b>Города которые могут быть затронуты: <br></font></b>" + citySTR + '<br>'
-                                        
+
                                     }
                                     else {
                                         if (buildings.length != 0) {
@@ -577,7 +578,7 @@
                                             }
                                             citySTR += forest[ind] + "<br>"
                                             used.push(ind)
-                                            
+
                                         }
 
                                         var ind = 0
@@ -592,7 +593,7 @@
                                             used.push(ind)
 
                                         }
-                                        
+
                                     }
                                     if (waterarr.length != 0) {
                                         citySTR += "<br><font color = '#e3e3e3';>Воды для тушения будет достаточно!<br></font>"
@@ -608,15 +609,15 @@
                                         type: 'GET',
 
                                         success: function (result) {
-                                            
+
                                             var json = JSON.parse(result)
                                             weatherClass = json.weather.main
                                             switch (weatherClass) {
-                                                //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
+                                                //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3
                                                 case 'Thunderstorm':
                                                     res[3] = 3
                                                     break;
-                                                case 'Drizzle': 
+                                                case 'Drizzle':
                                                     res[3] =1
                                                     break;
                                                 case 'Rain':
@@ -640,7 +641,7 @@
                                                 case 'Fog':
                                                     res[3] =1
                                                     break;
-                                                case 'Sand': 
+                                                case 'Sand':
                                                     res[3] =-1
                                                     break;
                                                 case 'Ash':
@@ -700,7 +701,7 @@
                                         content = content.replace(/{timeColor}/g, '#eeeeee')
                                     }
 
-                                    
+
                                     popup.setOptions({
                                         //Update the content of the popup.
                                         content: content,
@@ -710,7 +711,7 @@
                                     });
 
                                     citySTR += "Пожар будет потушен через: " + days + ' дней. <br>'
-                                    
+
 
                                     if (properties.Layer == 'Crown') {
                                         citySTR += '<br>Тип пожара: <font color = "#f95959";>верховой</font>'
@@ -718,7 +719,7 @@
                                     else {
                                         citySTR += '<br>Тип пожара: <font color = "#e3e3e3";>низовой</font>'
                                     }
-                                    //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3 
+                                    //'CB Dry': -1, 'CB Wet': 1, 'Clear': 0, 'Cloudy': 2, 'Rainshowers': 3
                                     switch (percentage[3]) {
                                         case -1:
                                             citySTR += '<br>Текущая погода: <font color = "#f95959";>сухо</font>'
