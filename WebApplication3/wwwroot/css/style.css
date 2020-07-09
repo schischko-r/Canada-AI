@@ -1,3 +1,7 @@
+body {
+    font-family: "Century Gothic", sans-serif;
+    background-color: #222831;
+}
 
 .container {
     width: 80%;
@@ -19,12 +23,6 @@
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 7px;
-}
-
-
-body {
-    font-family: "Century Gothic", sans-serif;
-    background-color: #222831;
 }
 
 .navbar {
