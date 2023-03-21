@@ -1,6 +1,6 @@
 # Neural Netfork for wildfire cost prediction
 
-> Goal: Creatin an interface for a fire dispatcher. The interface includes a fire map with markers. When clicking on a marker, a request is sent to the server with a neural network that evaluates the potential damage from the fire. After that, the user is presented with a summary of the area and approximate fire damage, as well as recommendations on how to extinguish it.
+> Goal: Creating an interface for a fire dispatcher. The interface includes a fire map with markers. When clicking on a marker, a request is sent to the server with a neural network that evaluates the potential damage from the fire. After that, the user is presented with a summary of the area and approximate fire damage, as well as recommendations on how to extinguish it.
 
 ### Project description:
 
